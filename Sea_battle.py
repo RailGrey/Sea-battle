@@ -5,7 +5,6 @@ import threading                        #from threading import Thread, Lock
 from time import sleep
 from time import time
 
-#import numpy as np
 #import file as fl
 
 FPS = 120
@@ -13,7 +12,7 @@ FPS = 120
 #w=int(input())
 h = 1920 // 2
 w = 1080 // 2
-intXboard = 100
+intXboard = 10
 intYboard = 10
 Positions_list=[(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)]
 #Positions_List=[(i*10**len(str(max(intXboard,intYboard)-1))+j) for i in range(intXboard) for j in range(intYboard)]
@@ -82,117 +81,111 @@ def shipplacementcorrectchecker():
 
 def shipplacement(Positions_List,deltaX,ShipsPositions): #Positions_List
 
-  global  popitshipplacement #, Positions_list
-  for m in range(MaxPalubn-1,-1,-1):
-    n=0
-    #Spawn (m+1)-x
-    while n<=MaxPalubn-1-m:
-        position=random.randint(0,len(Positions_list)-1)
+    global  popitshipplacement #, Positions_list
+    for m in range(MaxPalubn-1,-1,-1):
+      n=0
+      #Spawn (m+1)-x
+      while n<=MaxPalubn-1-m:
+          position=random.randint(0,len(Positions_list)-1)
     
-        x=Positions_list[position]//(10**len(str(max(intXboard,intYboard)-1)))
-        y=Positions_list[position]-10**len(str(max(intXboard,intYboard)-1))*x
+          x=Positions_list[position]//(10**len(str(max(intXboard,intYboard)-1)))
+          y=Positions_list[position]-10**len(str(max(intXboard,intYboard)-1))*x
 
-        #print(x,y)
+          #print(x,y)
     
-        popit=0
-        while popit==0:
-            rot1=random.randint(1,4)                     #Change rotation 1-up,2-right,3-down,4-left
-            rot2=random.randint(0,1)
-            rotY=int((1-(-1)**rot1)*(0.5-rot2))
-            rotX=int((1-(-1)**(rot1-1))*(0.5-rot2))
-            popit=1
-            if 0<=(x+m*rotX)<=intXboard-1 and 0<=(y+m*rotY)<=intYboard-1:
+          popit=0
+          while popit == 0:
+              rot1 = random.randint(1, 4)                     #Change rotation 1-up,2-right,3-down,4-left
+              rot2 = random.randint(0, 1)
+              rotY = int((1 - (-1) ** rot1) * (0.5 - rot2))
+              rotX = int((1 - (-1) ** (rot1 - 1)) * (0.5 - rot2))
+              popit = 1
+              if 0 <= (x + m * rotX) <= intXboard - 1 and 0 <= (y + m * rotY) <= intYboard - 1:
 
-                try:
-                    Positions_list.index((x+m*rotX)*(10**len(str(max(intXboard,intYboard)-1)))+(y+m*rotY))
-                except ValueError:
-                    popit=0
-                    #print("исключения есть")
-                else:
-                    popit=1
-                    #print("исключений нет")
+                  try:
+                      Positions_list.index((x+m*rotX)*(10**len(str(max(intXboard,intYboard)-1)))+(y+m*rotY))
+                  except ValueError:
+                      popit=0
+                      #print("исключения есть")
+                  else:
+                      popit=1
+                      #print("исключений нет")
 
-            else:
+              else:
                 popit=0
                 #print("исключения есть")
     
-        twopRect=pygame.Rect(deltaX+D*x-m*((1-rotX)//2)*D,y0+D*y-m*((1-rotY)//2)*D,D+m*D*modul(rotX),D+m*D*modul(rotY))
-        pygame.draw.ellipse(screen,(0,0,0),twopRect, width=0)
+          twopRect=pygame.Rect(deltaX+D*x-m*((1-rotX)//2)*D,y0+D*y-m*((1-rotY)//2)*D,D+m*D*modul(rotX),D+m*D*modul(rotY))
+          pygame.draw.ellipse(screen,(0,0,0),twopRect, width=0) 
+
+          Yaround=-1-m*(1-sign(rotY+0.5))//2
+          Xaround=-1-m*(1-sign(rotX+0.5))//2
+
+          #print(Xaround,Yaround)
+        
+          #print(rotX,rotY)
+
+          Del_list=[-1 for i in range(3*(3+m))]
+          i = 0
+          while Xaround<=1+(1+(m-1)*modul(rotX))*(1+sign(rotX))//2:               #Что удаляем из возможных позиций
+                  while Yaround<=1+(1+(m-1)*modul(rotY))*(1+sign(rotY))//2 and i<=3*(3+m)-1:
+                      print(x+Xaround,y+Yaround)
+                      if 0<=x+Xaround<=intXboard-1 and 0<=y+Yaround<=intYboard-1:
+                          Del_list[i]=(x+Xaround)*(10**len(str(max(intXboard,intYboard)-1)))+y+Yaround
+                          Yaround+=1
+                          i+=1
+                      else:
+                          Del_list[i]=-1
+                          Yaround+=1
+                          i += 1
+                  Xaround+=1
+                  Yaround=-1-m*(1-sign(rotY+0.5))//2
+
+          Yaround=-m*(1-sign(rotY+0.5))//2
+          Xaround=-m*(1-sign(rotX+0.5))//2
+          i = 0
+          while Xaround<=(1+(m-1)*modul(rotX))*(1+sign(rotX))//2:               #Что добавляем в позиции вражеских кораблей
+                  while Yaround<=(1+(m-1)*modul(rotY))*(1+sign(rotY))//2:
+                          ShipsPositions[MaxPalubn-1-m][n][i]=(x+Xaround)*(10**len(str(max(intXboard,intYboard)-1)))+y+Yaround
+                          Yaround+=1
+                          i+=1
+                  Xaround+=1
+                  Yaround=-m*(1-sign(rotY+0.5))//2
+
+          print(Del_list)
+          i=0
+          while i<=(len(Del_list)-1):
+              if Del_list[i]!=-1:
+                  try:
+                      Positions_list.remove(int(Del_list[i]))
+                      i+=1
+                  except ValueError:i+=1
+              else: i+=1
+          #print(Positions_list)
+          n+=1
+    #end of Spawn (m+1)-x
+    popitshipplacement=1
+    #print(Positions_list)
+    #Positions_List[:]=Positions_list
+    ShipsPositions[:]=ShipsPositions
     
-    
-  
-
-        Yaround=-1-m*(1-sign(rotY+0.5))//2
-        Xaround=-1-m*(1-sign(rotX+0.5))//2
-
-        #print(Xaround,Yaround)
-
-
-        #print(rotX,rotY)
-
-        Del_list=[-1 for i in range(3*(3+m))]
-        i=0
-        while Xaround<=1+(1+(m-1)*modul(rotX))*(1+sign(rotX))//2:               #Что удаляем из возможных позиций
-                while Yaround<=1+(1+(m-1)*modul(rotY))*(1+sign(rotY))//2 and i<=3*(3+m)-1:
-                    print(x+Xaround,y+Yaround)
-                    if 0<=x+Xaround<=intXboard-1 and 0<=y+Yaround<=intYboard-1:
-                        Del_list[i]=(x+Xaround)*(10**len(str(max(intXboard,intYboard)-1)))+y+Yaround
-                        Yaround+=1
-                        i+=1
-                    else:
-                        Del_list[i]=-1
-                        Yaround+=1
-                        i+=1
-                Xaround+=1
-                Yaround=-1-m*(1-sign(rotY+0.5))//2
-
-        Yaround=-m*(1-sign(rotY+0.5))//2
-        Xaround=-m*(1-sign(rotX+0.5))//2
-        i=0
-        while Xaround<=(1+(m-1)*modul(rotX))*(1+sign(rotX))//2:               #Что добавляем в позиции вражеских кораблей
-                while Yaround<=(1+(m-1)*modul(rotY))*(1+sign(rotY))//2:
-                        ShipsPositions[MaxPalubn-1-m][n][i]=(x+Xaround)*(10**len(str(max(intXboard,intYboard)-1)))+y+Yaround
-                        Yaround+=1
-                        i+=1
-                Xaround+=1
-                Yaround=-m*(1-sign(rotY+0.5))//2
-
-    
-        print(Del_list)
-        i=0
-        while i<=(len(Del_list)-1):
-            if Del_list[i]!=-1:
-                try:
-                    Positions_list.remove(int(Del_list[i]))
-                    i+=1
-                except ValueError:i+=1
-            else: i+=1
-        #print(Positions_list)
-        n+=1
-  #end of Spawn (m+1)-x
-  popitshipplacement=1
-  #print(Positions_list)
-  #Positions_List[:]=Positions_list
-  ShipsPositions[:]=ShipsPositions
-  
-  
- #"""if PlayersshipplasmentStage==True:
-    #  sleep(0.2)
-    #  MenuAutoRectSelect=pygame.Rect(x1+int(3/2*D1)*MaxPalubn+9*D1//2,w-y1//2-5*D1,2*D1,2*D1)
-    #  pygame.draw.rect(screen,(0,0,0),MenuAutoRectSelect, width=2)"""
+   #"""if PlayersshipplasmentStage==True:
+      #  sleep(0.2)
+      #  MenuAutoRectSelect=pygame.Rect(x1+int(3/2*D1)*MaxPalubn+9*D1//2,w-y1//2-5*D1,2*D1,2*D1)
+      #  pygame.draw.rect(screen,(0,0,0),MenuAutoRectSelect, width=2)"""
 
 ###Конец полной расстановки
 
 
 def makeBoards(x0,y0):
-    n=0
-    while n<=intXboard: #       для игрока
-        pygame.draw.line(screen,(0,0,0),(   x0+D*n-d//2,   y0-d//2       ),(   x0+D*n-d//2        ,   y0+intYboard*D-d//2)   ,d)
-        n+=1
-    n=0
-    while n<=intYboard: #       для игрока
-        pygame.draw.line(screen,(0,0,0),(   x0-d//2    ,   y0+D*n-d//2   ),(   x0+intXboard*D-d//2,   y0+D*n-d//2)           ,d)
-        n+=1
+    n = 0
+    while n <= intXboard: #       для игрока
+        pygame.draw.line(screen, (0, 0, 0), (x0 + D * n - d // 2, y0 - d // 2), (x0 + D * n - d // 2, y0 +intYboard * D - d // 2), d)
+        n += 1
+    n = 0
+    while n <= intYboard: #       для игрока
+        pygame.draw.line(screen, (0, 0, 0),(x0 - d // 2, y0 + D * n - d // 2), (x0 + intXboard * D - d // 2, y0 + D * n - d // 2), d)
+        n += 1
 
 
 #def TIMERknopka(x,y,h,w):
@@ -270,8 +263,7 @@ while PlayersshipplasmentStage:
                 MenuAutoRectSelect=pygame.Rect(x1+int(3/2*D1)*MaxPalubn+9*D1//2,w-y1//2-8*D1,2*D1,2*D1)
                 pygame.draw.rect(screen,(0,0,0),MenuAutoRectSelect, width=2)
                 TIMER1=0
-            
-
+    
 
     i=0
     for i in range(MaxPalubn):
@@ -352,7 +344,6 @@ while PlayersshipplasmentStage:
                             pygame.draw.rect(screen,(255,0,0),(x2+x*D-1,y2+y*D-1,D+1,D+1),d)
                             #playerspositions[x][y]=1#с этих пор место занято
 
-                    
                 elif PlayersshipplasmentInProcessTwo==0:
                     if (x2<=event.pos[0]<=h//2) and (y2<=event.pos[1]<=w-y2):
                         xEnd=(event.pos[0]-x2)//D
@@ -373,10 +364,8 @@ while PlayersshipplasmentStage:
                                 PlayersshipplasmentInProcessTwo=0
                                 PlayersshipplasmentInProcessOne=0
                                 
-                            
                                 Xdelit=-(1-rotX)//2*(Palubn-1)*modul(rotX)-1
                                 Ydelit=-(1-rotY)//2*(Palubn-1)*modul(rotY)-1
-
 
                                 while Xdelit<=(1+rotX)//2*(Palubn-1)*modul(rotX)+1:
                                     while Ydelit<=(1+rotY)//2*(Palubn-1)*modul(rotY)+1:
@@ -388,8 +377,6 @@ while PlayersshipplasmentStage:
                                     Ydelit=-(1-rotY)//2*(Palubn-1)*modul(rotY)-1
                                 CountOstShips[Palubn-1]+=-1
                                 print(playerspositions)
-
-
 
                                 Yaround=-(Palubn-1)*(1-sign(rotY+0.5))//2
                                 Xaround=-(Palubn-1)*(1-sign(rotX+0.5))//2
@@ -410,10 +397,6 @@ while PlayersshipplasmentStage:
                                 PlayersshipplasmentInProcessTwo=0
                                 pygame.draw.rect(screen,(0,0,0),(x2+x*D-1,y2+y*D-1,D+1,D+1),d)
 
-
-                        
-
-                  
                     else:
                         PlayersshipplasmentInProcessOne=0
                         pygame.draw.rect(screen,(0,0,0),(x2+x*D-1,y2+y*D-1,D+1,D+1),d)
@@ -447,13 +430,13 @@ pygame.draw.rect(screen,SEA,RedrawRect,0)
 
 #расстановка кораблей противника
 
-y1=y0 
+y1 = y0 
 
 #For Computer
-makeBoards(x1,y1)
+makeBoards(x1, y1)
 
 #spccheckerThread=threading.Thread(target=shipplacementcorrectchecker)
-shipplacement=threading.Thread(target=shipplacement(Positions_list,x1,OppShips))
+shipplacement=threading.Thread(target = shipplacement(Positions_list, x1, OppShips))
 
 #spccheckerThread.start()
 shipplacement.start()
@@ -478,14 +461,14 @@ Turn=random.randint(0,1)     # 1- player, 0 - computer
 Yestpopadaniye=0
 correct=0
 #WasatteckfromPlayer  =[[0 for i in range(intYboard)]for i in range(intXboard)]
-WasatteckfromPlayer  =[(i*10**len(str(max(intXboard,intYboard)-1))+j) for i in range(intXboard) for j in range(intYboard)]
+WasatteckfromPlayer  =[(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)]
 WasatteckfromComputer=[[0 for i in range(intYboard)]for i in range(intXboard)]
 #WasatteckfromComputer=[(i*10**len(str(max(intXboard,intYboard)-1))+j) for i in range(intXboard) for j in range(intYboard)]
 #print(PlayersShips)
-Positions_list=[(i*10**len(str(max(intXboard,intYboard)-1))+j) for i in range(intXboard) for j in range(intYboard)]
+Positions_list=[(i * 10 ** len(str(max(intXboard,intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)]
 
-PlayerDefeat=0
-ComputerDefeat=0
+PlayerDefeat = 0
+ComputerDefeat = 0
 while GameStage:
     pygame.time.Clock().tick(FPS)
     pygame.display.update()

@@ -8,28 +8,13 @@ RED = (255, 0, 0)
 
 block_size = 50
 
+def draw_grid(x, y, lenght, hight, screen, scale):
+    # Горизонтальные линии
+    for i in range(hight + 1):
+        pygame.draw.line(screen, BLACK, (x, y + i * block_size * scale),
+                         (x + lenght * block_size * scale, y + i * block_size * scale), 1)
 
-class Grid:
-    """Класс для рисовки сетки. x,y - верхний левый угол
-     lenght, hight - размеры сетки. scale - масштаб
-     """
-
-    def __init__(self, screen, scale=1):
-        self.x = 0
-        self.y = 0
-        self.lenght = 0
-        self.hight = 0
-        self.screen = screen
-        self.scale = scale
-        self.block_size = block_size * self.scale
-
-    def draw_grid(self):
-        # Горизонтальные линии
-        for i in range(self.hight + 1):
-            pygame.draw.line(self.screen, BLACK, (self.x, self.y + i * self.block_size),
-                             (self.x + self.lenght * self.block_size, self.y + i * self.block_size), 1)
-
-        # Вертикальные линии
-        for i in range(self.lenght + 1):
-            pygame.draw.line(self.screen, BLACK, (self.x + i * self.block_size, self.y),
-                             (self.x + i * self.block_size, self.y + self.hight * self.block_size))
+    # Вертикальные линии
+    for i in range(lenght + 1):
+        pygame.draw.line(screen, BLACK, (x + i * block_size * scale, y),
+                         (x + i * block_size * scale, y + hight * block_size * scale))

@@ -8,7 +8,17 @@ RED = (255, 0, 0)
 
 block_size = 50
 
+
 def draw_grid(x, y, lenght, hight, screen, scale):
+    """Рисует сетку игрового поля.
+    Input:
+    x - х координата левого верхнего угла
+    y - у координата левого верхнего угла
+    lenght - длина сетки в клетках
+    hight - высота сетки в клетках
+    screen - объект типа pygame.screen, на нем производится отрисовка
+    scale - масштаб клеток. Умножает 50 пикселей на это число. По стандарту следует ставить 1
+    """
     # Горизонтальные линии
     for i in range(hight + 1):
         pygame.draw.line(screen, BLACK, (x, y + i * block_size * scale),

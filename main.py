@@ -19,12 +19,17 @@ def main():
     global Main, screen
     pygame.init()
     Main = True
-    # main cycle of the game, ends when player exits the game,
-    # consists of 2-3 cycles: game menu, game play, game over/game pause !!!Still in discussion about it!!!
+    clock = pygame.time.Clock()
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    placement_of_ship()
     while Main:
-        screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        Main = False
-
+        screen.fill(WHITE)
+        clock.tick(FPS)
+        draw_grid(10, 10, 10, 10, screen, 1)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                Main = False        
+        pygame.display.update()
     pygame.quit()
     
     

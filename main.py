@@ -21,7 +21,7 @@ def main():
     Main = True
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    
+    placement_of_ship()
     while Main:
         screen.fill(WHITE)
         clock.tick(FPS)

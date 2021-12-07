@@ -45,14 +45,14 @@ class Grid:
 
     """
 
-    def __init__(self, x, y, lenght, height, screen, block_size=50, black=(0, 0, 0)):
-        self.x = x
-        self.y = y
+    def __init__(self, lenght, height, screen, black=(0, 0, 0)):
+        self.x = 50
+        self.y = 50
         self.lenght = lenght
         self.height = height
         self.screen = screen
         self.scale = 1
-        self.block_size = block_size * self.scale
+        self.block_size = 50 * self.scale
         self.color = black
         
         
@@ -97,9 +97,20 @@ class Interface():
     ------
     '''
     
-    def __init__(self, screen):
-        self.grid_of_player = Grid(50, 100, 10, 10, screen, 35, (0, 0, 0))
-        self.grid_of_oponent = Grid(500, 100, 10, 10, screen, 35, (0, 0, 0))
+    def __init__(self, screen, width, height):        
+        #create and place player's grid
+        self.grid_of_player = Grid(10, 10, screen, (0, 0, 0))
+        block_size = min((width / 2 - 50) / self.grid_of_player.lenght,
+                                      (height - 250) / self.grid_of_player.height)        
+        self.grid_of_player.block_size = block_size
+        self.grid_of_player.x = 25
+        self.grid_of_player.y = 25
+        #create and place oponent's grid
+        self.grid_of_oponent = Grid(10, 10, screen, (0, 0, 0))
+        self.grid_of_oponent.block_size = block_size
+        self.grid_of_oponent.x = width / 2 + 25
+        self.grid_of_oponent.y = 25
+        
         self.placement_of_ships = Button(500, 500, 30, 30)
         
         

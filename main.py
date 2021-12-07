@@ -7,7 +7,7 @@ from controller import *
 BLACK = (0,0,0)
 # Game screen Height and Width
 HEIGHT = 800
-WIDTH = 1000
+WIDTH = 1200
 
 # window with game, rectangle(left up angle cors, width, height)
 game_window = (0, 0, 800, 800)
@@ -21,7 +21,7 @@ def main():
     Main = True
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    interface = Interface(screen)
+    interface = Interface(screen, WIDTH, HEIGHT)
     #placement_of_ship()
     while Main:
         screen.fill(WHITE)

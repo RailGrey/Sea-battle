@@ -28,3 +28,19 @@ def draw_grid(x, y, lenght, hight, screen, scale):
     for i in range(lenght + 1):
         pygame.draw.line(screen, BLACK, (x + i * block_size * scale, y),
                          (x + i * block_size * scale, y + hight * block_size * scale))
+
+
+def draw_grid(grid):
+    """Рисует сетку игрового поля.
+        Input:
+        grid - объект класса Grid
+        """
+    # Горизонтальные линии
+    for i in range(grid.height + 1):
+        pygame.draw.line(grid.screen, grid.color, (grid.x, grid.y + i * grid.block_size),
+                         (grid.x + grid.lenght * grid.block_size, grid.y + i * grid.block_size), 1)
+
+    # Вертикальные линии
+    for i in range(grid.lenght + 1):
+        pygame.draw.line(grid.screen, grid.color, (grid.x + i * grid.block_size, grid.y),
+                         (grid.x + i * grid.block_size, grid.y + grid.height * grid.block_size))

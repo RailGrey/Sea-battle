@@ -36,12 +36,18 @@ class Ship:
         self.block_size = grid.block_size
 
     def draw_ship(self):
+        """
+        Рисует корабль игрока
+        """
         for i in self.r_live:
             pygame.draw.rect(self.grid.screen, BLUE, (self.grid.x + self.block_size * (i[0] - 1) + 1,
                                                       self.grid.y + self.block_size * (i[1] - 1) + 1,
                                                       self.block_size - 1, self.block_size - 1))
 
     def draw_dead_ship(self):
+        """
+        Рисует крест на уничтоженой части корабля
+        """
         for i in self.r_dead:
             pygame.draw.line(self.grid.screen, RED,
                              (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * (i[1] - 1)),
@@ -52,6 +58,9 @@ class Ship:
                              (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * (i[1] - 1)), 5)
 
     def draw_enemy_dead_ship(self):
+        """
+        Рисует сразу уничтоженый вражеский корабль
+        """
         for i in self.r_dead:
             pygame.draw.rect(self.grid.screen, ENEMY, (self.grid.x + self.block_size * (i[0] - 1) + 1,
                                                        self.grid.y + self.block_size * (i[1] - 1) + 1,

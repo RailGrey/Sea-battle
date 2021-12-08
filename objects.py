@@ -1,4 +1,5 @@
 import pygame
+import pygame.freetype
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -116,29 +117,68 @@ class Grid:
 
 class Button:
     """
-    Класс для кнопок
-    ---------
-    Атрибуты:
-    х - х координата левого верхнего угла
-    у - у координата левого верхнего угла
-    width - ширина кнопки в пикселях
-    height - высота кнопки в пикселях
+    Класс кнопок
+       --------
+       Атрибуты
+       --------
+       bg_rect = список [x, y, width, height] где x,y - координаты левого верхнего угла
+       text_color - цвет текста
+       bg_color - цвет фона
+       size - размер шрифта
+       text - текст
+       text_pressed - текст при нажатии
     """
+    def __init__(self, bg_rect: list, text_color, bg_color, size, text, text_pressed=''):
+        """
+        bg_rect = list [x, y, width, height] where x,y - coordinates of left top angle of rect of background
+        text_color - color of bottom
+        bg_color
+        size
+        text - text on the bottom
+        text_pressed
+        """
+        self.text_color = text_color
+        self.text = text
+        self.bg_color = bg_color
+        self.bg_rect = bg_rect
+        self.text_rect = [0, 0, 0, 0]
+        # pressed = 0 if not pressed and 1 if pressed
+        self.pressed = 0
+        self.pressed_color = (200, 200, 200)
+        self.text_pressed = text_pressed
+        self.size = size
 
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+    def draw(self, screen):
+        """draws button with text on the screen"""
+        pygame.draw.rect(screen, self.bg_color, self.bg_rect)
+
+        font = pygame.freetype.SysFont("Arial", self.size)  # FIXME text
+
+        if (self.pressed == 0) or (self.text_pressed == '0'):
+            font.render_to(screen, (self.bg_rect[0] + 5, self.bg_rect[1] + 5), self.text, fgcolor=self.text_color,
+                           bgcolor=self.bg_color, size=self.size)
+        else:
+            font.render_to(screen, (self.bg_rect[0] + 5, self.bg_rect[1] + 5), self.text_pressed,
+                           fgcolor=self.text_color, bgcolor=self.pressed_color, size=self.size)
+
+        text_rect_fig = pygame.freetype.Font.get_rect(font, self.text, size=self.size)
+
+        self.text_rect[0] = text_rect_fig.left
+        self.text_rect[1] = text_rect_fig.top
+        self.text_rect[2] = text_rect_fig.width
+        self.text_rect[3] = text_rect_fig.height
 
 
 class Interface():
     """
     Содержит все элементы экрана
     ------
+    grid_of_player - сетка игрока
+    grid_of_oponent - сетка противника
     """
 
     def __init__(self, screen, width, height):
+        self.screen = screen
         # create and place player's grid
         self.grid_of_player = Grid(10, 10, screen, (0, 0, 0))
         block_size = min((width / 2 - 50) / self.grid_of_player.lenght,
@@ -146,14 +186,16 @@ class Interface():
         self.grid_of_player.block_size = block_size
         self.grid_of_player.x = 25
         self.grid_of_player.y = 25
+        
         # create and place oponent's grid
         self.grid_of_oponent = Grid(10, 10, screen, (0, 0, 0))
         self.grid_of_oponent.block_size = block_size
         self.grid_of_oponent.x = width / 2 + 25
         self.grid_of_oponent.y = 25
 
-        self.placement_of_ships = Button(500, 500, 30, 30)
+        self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
 
     def draw(self):
         self.grid_of_player.draw_grid()
         self.grid_of_oponent.draw_grid()
+        self.placement_of_ships.draw(self.screen)

@@ -100,6 +100,7 @@ class Grid:
         self.scale = 1
         self.block_size = 50 * self.scale
         self.color = black
+        self.rect = 0
 
     def draw_grid(self):
         """ Рисует сетку игрового поля.
@@ -147,6 +148,7 @@ class Button:
         self.pressed_color = (200, 200, 200)
         self.text_pressed = text_pressed
         self.size = size
+        self.ships = 0
 
     def draw(self, screen):
         """draws button with text on the screen"""
@@ -186,14 +188,19 @@ class Interface():
         self.grid_of_player.block_size = block_size
         self.grid_of_player.x = 25
         self.grid_of_player.y = 25
+        self.grid_of_player.rect = (self.grid_of_player.x, self.grid_of_player.y, self.grid_of_player.lenght * self.grid_of_player.block_size,
+                                    self.grid_of_player.height * self.grid_of_player.block_size)
         
         # create and place oponent's grid
         self.grid_of_oponent = Grid(10, 10, screen, (0, 0, 0))
         self.grid_of_oponent.block_size = block_size
         self.grid_of_oponent.x = width / 2 + 25
         self.grid_of_oponent.y = 25
+        self.grid_of_oponent.rect = (self.grid_of_oponent.x, self.grid_of_oponent.y, self.grid_of_oponent.lenght * self.grid_of_oponent.block_size,
+                                     self.grid_of_oponent.height * self.grid_of_oponent.block_size)        
 
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
+        
 
     def draw(self):
         self.grid_of_player.draw_grid()

@@ -7,7 +7,7 @@ from controller import *
 BLACK = (0,0,0)
 # Game screen Height and Width
 HEIGHT = 800
-WIDTH = 1200
+WIDTH = 1000
 
 # window with game, rectangle(left up angle cors, width, height)
 game_window = (0, 0, 800, 800)
@@ -29,7 +29,8 @@ def main():
         interface.draw()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                Main = False        
+                Main = False
+        event_manage(event, interface, 1)
         pygame.display.update()
     pygame.quit()
     

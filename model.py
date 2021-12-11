@@ -179,7 +179,7 @@ def manual_placement(grid, r1, r2, len_ship):
 
 def player_hit(grid, r):
     """Совершает ход игрока. Уничтожает корабль врага если попал, и промахивается иначе.
-    Если выстрела не было возвращает False. Если же был - True. Если корабль уничтожен - добавляет промахи
+    Возвращает True, если нужен еще 1 ход.
     Input:
     grid - объект класса Grid. Вражеская сетка
     r - координаты в клетках (x, y)
@@ -206,7 +206,8 @@ def player_hit(grid, r):
 
         if not hit.attack:
             grid.miss.append(r)
-    return hit.possibility
+    output = not hit.possibility or hit.attack
+    return output
 
 
 def oponent_turn(grid):
@@ -231,6 +232,7 @@ def oponent_turn(grid):
         r_attack_index = random.randint(0, len(oponent_hit.oponents_possible_hit) - 1)
         r_attack = oponent_hit.oponents_possible_hit[r_attack_index]
         oponent_attack(grid, oponent_hit, r_attack)
+    return oponent_hit.attack
 
 
 def add_miss_after_death(grid, ship, hit):

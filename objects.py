@@ -10,11 +10,28 @@ BLUE = (45, 48, 140)
 ENEMY = (31, 191, 36)
 
 
-class Possibilty():
+class Possibility:
+    """Класс для проверки возможности в расстановке
+    Атрибуты:
+        value - принимает False, True. Возможен ли этот вариант
+        r_ship - координаты нового корабля
+        dirrection - в каком направлении построить корабль. задается двумя значениями (z1, z2)
+        """
     def __init__(self, value=True):
         self.value = value
         self.r_ship = []
         self.dirrection = (0, 0)
+
+class Hit():
+    """Класс для корректной работы хода игрока и опонента
+    Атрибуты:
+    possibilty - возможно ли выстрелить в эту точку поля.
+    attack - была ли произведена атака. True - была, False - не была.
+    """
+    def __init__(self):
+        self.possibility = True
+        self.attack = False
+        self.exist = False
 
 class Ship:
     """
@@ -95,6 +112,7 @@ class Grid:
     block_size - длина клеток в пикселях
     color - цвет сетки
     ships - массив кораблей связаный с этой сеткой
+    miss - массив с промахами
     ---------------
     Методы:
 
@@ -113,6 +131,7 @@ class Grid:
         self.color = black
         self.rect = 0
         self.ships = ships
+        self.miss = []
 
     def draw_grid(self):
         """ Рисует сетку игрового поля.
@@ -148,6 +167,9 @@ class Grid:
     def draw_miss_shot(self):
         """Рисует промахи
         """
+        for miss in self.miss:
+            pygame.draw.circle(self.screen, self.color, (self.x + miss[0] * self.block_size,
+                                                         self.y + miss[1] * self.block_size), self.block_size//10)
 
 
 class Button:
@@ -244,8 +266,15 @@ class Interface():
         self.grid_of_player.draw_grid()
         self.grid_of_player.draw_your_ships()
         self.grid_of_player.draw_dead_your_ships()
+        self.grid_of_player.draw_miss_shot()
         self.grid_of_oponent.draw_grid()
         self.grid_of_oponent.draw_dead_enemy_ships()
+<<<<<<< HEAD
         if not(game):
             self.placement_of_ships.draw(self.screen)
             self.manual_placement.draw(self.screen)
+=======
+        self.grid_of_oponent.draw_miss_shot()
+        self.placement_of_ships.draw(self.screen)
+        self.manual_placement.draw(self.screen)
+>>>>>>> b1afe752850a64355c8ece6b5a7f28b7cdef7c59

@@ -46,6 +46,7 @@ def event_manage(event, interface, placement, game, first_click):
                 interface.manual_placement.bg_color = interface.manual_placement.text_color
                 interface.manual_placement.text_color = color                
                 placement = True
+                interface.grid_of_player.ships = []
     
     return placement, game, first_click
 

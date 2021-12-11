@@ -21,6 +21,7 @@ def event_manage(event, interface, placement, game, first_click):
                     first_click = event.pos
                 else:
                     count = len(interface.grid_of_player.ships)
+                    print(count)
                     if count < 4:
                         lenth = 1
                     elif count < 7:
@@ -38,7 +39,7 @@ def event_manage(event, interface, placement, game, first_click):
             # if pressed button is left mouse button
             if event.button == 1:
                 pressed_mouse = True
-            if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect):
+            if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not(game):
                 color = interface.placement_of_ships.bg_color
                 interface.placement_of_ships.bg_color = interface.placement_of_ships.text_color
                 interface.placement_of_ships.text_color = color

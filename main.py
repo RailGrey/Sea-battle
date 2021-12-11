@@ -11,7 +11,7 @@ WIDTH = 1000
 
 # window with game, rectangle(left up angle cors, width, height)
 game_window = (0, 0, 800, 800)
-FPS = 10
+FPS = 30
    
 
 

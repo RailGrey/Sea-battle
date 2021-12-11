@@ -87,6 +87,9 @@ class Ship:
         Рисует крест на уничтоженой части корабля
         """
         for i in self.r_dead:
+            pygame.draw.rect(self.grid.screen, BLUE, (self.grid.x + self.block_size * (i[0] - 1) + 1,
+                                                      self.grid.y + self.block_size * (i[1] - 1) + 1,
+                                                      self.block_size, self.block_size))
             pygame.draw.line(self.grid.screen, RED,
                              (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * (i[1] - 1)),
                              (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * i[1]), 5)
@@ -171,7 +174,6 @@ class Grid:
         """Рисует уничтоженые корабли игрока
         """
         for ship in self.ships:
-            ship.draw_ship()
             ship.draw_dead_ship()
 
     def draw_dead_enemy_ships(self):

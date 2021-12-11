@@ -228,22 +228,21 @@ def oponent_turn(grid):
     if oponent_hit.idea == []:
         oponent_hit.oponents_idea = False
 
-
+    new_idea = []
+    for i in oponent_hit.idea:
+        for j in grid.ships:
+            if i in j.r_dead:
+                oponent_hit.choice_posibility = False
+        if oponent_hit.choice_posibility:
+            new_idea.append(i)
+        oponent_hit.choice_posibility = True
+    oponent_hit.idea = new_idea
 
     if oponent_hit.oponents_idea:
         r_attack_index = random.randint(0, len(oponent_hit.idea) - 1)
         r_attack = oponent_hit.idea[r_attack_index]
         oponent_attack(grid, oponent_hit, r_attack)
-        oponent_hit.idea.remove(r_attack)
-        new_idea = []
-        for i in oponent_hit.idea:
-            for j in grid.ships:
-                if i in j.r_dead:
-                    oponent_hit.choice_posibility = False
-            if oponent_hit.choice_posibility:
-                new_idea.append(i)
-            oponent_hit.choice_posibility = True
-        oponent_hit.idea = new_idea
+
         if not oponent_hit.idea_ship.live:
             oponent_hit.idea = []
 
@@ -254,7 +253,6 @@ def oponent_turn(grid):
             r_attack_index = random.randint(0, len(oponent_hit.oponents_possible_hit) - 1)
             r_attack = oponent_hit.oponents_possible_hit[r_attack_index]
             oponent_attack(grid, oponent_hit, r_attack)
-    print(oponent_hit.oponents_possible_hit)
     return oponent_hit.attack
 
 
@@ -303,6 +301,7 @@ def oponent_attack(grid, hit, r):
                 hit.attack = True
                 hit.oponents_idea = True
                 ship.r_dead.append(r)
+                ship.r_live.remove(r)
                 add_miss_after_hit(grid, hit, r)
                 if not ship.r_live:
                     hit.oponents_idea = False

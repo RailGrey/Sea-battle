@@ -217,7 +217,7 @@ class Interface():
     def __init__(self, screen, width, height):
         self.screen = screen
         # create and place player's grid
-        self.grid_of_player = Grid(10, 10, screen, (0, 0, 0))
+        self.grid_of_player = Grid(12, 10, screen, (0, 0, 0))
         block_size = min((width / 2 - 50) / self.grid_of_player.lenght,
                          (height - 250) / self.grid_of_player.height)
         self.grid_of_player.block_size = block_size
@@ -228,7 +228,7 @@ class Interface():
         self.grid_of_player.height * self.grid_of_player.block_size)
 
         # create and place oponent's grid
-        self.grid_of_oponent = Grid(10, 10, screen, (0, 0, 0))
+        self.grid_of_oponent = Grid(12, 10, screen, (0, 0, 0))
         self.grid_of_oponent.block_size = block_size
         self.grid_of_oponent.x = width / 2 + 25
         self.grid_of_oponent.y = 25
@@ -240,11 +240,12 @@ class Interface():
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
         self.grids = [self.grid_of_player, self.grid_of_oponent]
 
-    def draw(self):
+    def draw(self, game):
         self.grid_of_player.draw_grid()
         self.grid_of_player.draw_your_ships()
         self.grid_of_player.draw_dead_your_ships()
         self.grid_of_oponent.draw_grid()
         self.grid_of_oponent.draw_dead_enemy_ships()
-        self.placement_of_ships.draw(self.screen)
-        self.manual_placement.draw(self.screen)
+        if not(game):
+            self.placement_of_ships.draw(self.screen)
+            self.manual_placement.draw(self.screen)

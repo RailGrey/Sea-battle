@@ -36,9 +36,6 @@ def event_manage(event, interface, placement, game, first_click):
                     first_click = (10000, 10000)
 
         else:
-            # if pressed button is left mouse button
-            if event.button == 1:
-                pressed_mouse = True
             if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not(game):
                 color = interface.placement_of_ships.bg_color
                 interface.placement_of_ships.bg_color = interface.placement_of_ships.text_color

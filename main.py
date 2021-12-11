@@ -30,7 +30,7 @@ def main():
     while Main:
         screen.fill(WHITE)
         clock.tick(FPS)
-        interface.draw()
+        interface.draw(Game)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False

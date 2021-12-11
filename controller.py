@@ -29,7 +29,9 @@ def event_manage(event, interface, placement, game, first_click):
                         lenth = 3
                     else:
                         lenth = 4
-                    model.manual_placement(interface.grid_of_player, mouse_grid_pose_check(first_click, interface), mouse_grid_pose_check(event.pos, interface), lenth)  
+                    first_click = (mouse_grid_pose_check(first_click, interface)[1], mouse_grid_pose_check(first_click, interface)[2])
+                    second_click = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
+                    model.manual_placement(interface.grid_of_player, first_click, second_click, lenth)  
                     first_click = (10000, 10000)
 
         else:

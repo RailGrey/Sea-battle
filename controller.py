@@ -30,16 +30,19 @@ def event_manage(event, interface, main, placement, game, first_click, turn_of_p
                     if len(interface.grid_of_player.ships) == (interface.grid_of_player.MaxPalubn + 1) * len(interface.grid_of_player.ships) // 2:
                         placement = False
         #if mouse on oponent grid
+        #for Daniil!!!
         elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
             if event.button == 1:
-                x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
-                hit_posobility = model.player_hit(interface.grid_of_oponent, x)
-                if not(model.is_alive(interface.grid_of_oponent.ships)):
+                x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2]) #coordinates in grid
+                hit_posobility = model.player_hit(interface.grid_of_oponent, x) #step of player
+                if not(model.is_alive(interface.grid_of_oponent.ships)): #end of game 
                     main = False
                 if not(hit_posobility):
-                    model.oponent_turn(interface.grid_of_player)
-                    if not(model.is_alive(interface.grid_of_player)):
-                        main = False
+                    fire = model.oponent_turn(interface.grid_of_player)
+                    while fire:
+                        fire = model.oponent_turn(interface.grid_of_player)
+                        if not(model.is_alive(interface.grid_of_player.ships)):
+                            main = False
         else:
             #if mouse on auto-placement button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not(game):

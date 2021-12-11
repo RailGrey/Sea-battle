@@ -15,10 +15,12 @@ def sign(sig):#int
     else:
         return int(sig/modul(sig))
 
-intXboard=10
-intYboard=10
-MaxPalubn=4
+
+
 def placement_of_ship(grid):
+    MaxPalubn=grid.MaxPalubn
+    intXboard=grid.lenght
+    intYboard=grid.height
     ###!!! тут номерация с 0, но переводится в итоге с 1 как и требуется в других частях кода
     ShipsPositions=[]
     Positions_list=[(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)]

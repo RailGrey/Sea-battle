@@ -235,6 +235,12 @@ class Button:
         self.text_rect[1] = text_rect_fig.top
         self.text_rect[2] = text_rect_fig.width
         self.text_rect[3] = text_rect_fig.height
+    
+    
+    def change_color(self):
+        color = self.bg_color
+        self.bg_color = self.text_color
+        self.text_color = color
 
 
 class Interface():

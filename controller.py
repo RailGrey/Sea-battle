@@ -14,6 +14,7 @@ def mouse_pos_check(mouse_pos, rect):
 def event_manage(event, interface, placement, game, first_click, turn_of_player):
     """manages event from the game"""
     if event.type == pygame.MOUSEBUTTONDOWN:
+        #if mouse on player grid
         if mouse_pos_check(event.pos, interface.grid_of_player.rect):  # if mouse on game window
             # if pressed button is left mouse button
             if event.button == 1 and placement:
@@ -28,26 +29,24 @@ def event_manage(event, interface, placement, game, first_click, turn_of_player)
                     first_click = (10000, 10000)
                     if len(interface.grid_of_player.ships) == (interface.grid_of_player.MaxPalubn + 1) * len(interface.grid_of_player.ships) // 2:
                         placement = False
+        #if mouse on oponent grid
         elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
             if event.button == 1:
                 x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
-                model.player_hit(interface.grid_of_oponent, x)               
+                model.player_hit(interface.grid_of_oponent, x) 
         else:
+            #if mouse on auto-placement button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not(game):
-                color = interface.placement_of_ships.bg_color
-                interface.placement_of_ships.bg_color = interface.placement_of_ships.text_color
-                interface.placement_of_ships.text_color = color
+                interface.placement_of_ships.change_color()
                 model.placement_of_ship(interface.grid_of_player)
+            #if mouse on manual placement button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.manual_placement.bg_rect) and not(game):
-                color = interface.manual_placement.bg_color
-                interface.manual_placement.bg_color = interface.manual_placement.text_color
-                interface.manual_placement.text_color = color                
+                interface.manual_placement.change_color()                
                 placement = True
                 interface.grid_of_player.ships = []
+            #if mouse on start button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.start.bg_rect):
-                color = interface.start.bg_color
-                interface.start.bg_color = interface.start.text_color
-                interface.start.text_color = color 
+                interface.start.change_color() 
                 if len(interface.grid_of_player.ships) == 0:
                     model.placement_of_ship(interface.grid_of_player)
                 game = True

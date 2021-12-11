@@ -87,8 +87,7 @@ def placement_of_ship(grid):
             S=[]
             while Xaround<=(1+(m-1)*modul(rotX))*(1+sign(rotX))//2:               #Что добавляем в позиции вражеских кораблей
                 while Yaround<=(1+(m-1)*modul(rotY))*(1+sign(rotY))//2:
-                    S+=[(x+Xaround+1,y+Yaround+1)]
-                    
+                    S+=[(x+Xaround+1,y+Yaround+1)]       
                     Yaround+=1
                 Xaround+=1
                 Yaround=-m*(1-sign(rotY+0.5))//2
@@ -108,12 +107,9 @@ def placement_of_ship(grid):
                 m=MaxPalubn
                 n=0
                 ShipsPositions=[]
-                Positions_list=[(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)]
-    
-        m-=1
-        
+                Positions_list=[(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)] 
+        m-=1       
     #end of Spawn (m+1)-x
-
     #popitshipplacement=1 
     grid.ships = ShipsPositions
 
@@ -233,3 +229,6 @@ def player_hit(grid, r):
 
 def oponent_turn(grid):
     pass
+
+
+

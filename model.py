@@ -209,29 +209,52 @@ def player_hit(grid, r):
     output = not hit.possibility or hit.attack
     return output
 
-
+oponent_hit = Hit()
 def oponent_turn(grid):
-
-    oponent_hit = Hit()
     oponent_hit.attack = False
     oponent_hit.oponents_start_list = [(i, j) for i in (range(1, grid.lenght, 1)) for j in (range(1, grid.height, 1))]
     oponent_hit.new_list = []
     for i in oponent_hit.oponents_start_list:
         if not (i in grid.miss):
             for ship in grid.ships:
-                if not (i in ship.r_dead):
-                    oponent_hit.new_list.append(i)
+                if i in ship.r_dead:
+                    oponent_hit.choice_posibility = False
+            if oponent_hit.choice_posibility:
+                oponent_hit.new_list.append(i)
+            else:
+                oponent_hit.choice_posibility = True
     oponent_hit.oponents_possible_hit = oponent_hit.new_list
+
+    if oponent_hit.idea == []:
+        oponent_hit.oponents_idea = False
+
+
 
     if oponent_hit.oponents_idea:
         r_attack_index = random.randint(0, len(oponent_hit.idea) - 1)
         r_attack = oponent_hit.idea[r_attack_index]
         oponent_attack(grid, oponent_hit, r_attack)
+        oponent_hit.idea.remove(r_attack)
+        new_idea = []
+        for i in oponent_hit.idea:
+            for j in grid.ships:
+                if i in j.r_dead:
+                    oponent_hit.choice_posibility = False
+            if oponent_hit.choice_posibility:
+                new_idea.append(i)
+            oponent_hit.choice_posibility = True
+        oponent_hit.idea = new_idea
+        if not oponent_hit.idea_ship.live:
+            oponent_hit.idea = []
+
+        print(oponent_hit.idea)
 
     else:
-        r_attack_index = random.randint(0, len(oponent_hit.oponents_possible_hit) - 1)
-        r_attack = oponent_hit.oponents_possible_hit[r_attack_index]
-        oponent_attack(grid, oponent_hit, r_attack)
+        if len(oponent_hit.oponents_possible_hit) != 0:
+            r_attack_index = random.randint(0, len(oponent_hit.oponents_possible_hit) - 1)
+            r_attack = oponent_hit.oponents_possible_hit[r_attack_index]
+            oponent_attack(grid, oponent_hit, r_attack)
+    print(oponent_hit.oponents_possible_hit)
     return oponent_hit.attack
 
 
@@ -280,19 +303,21 @@ def oponent_attack(grid, hit, r):
                 hit.attack = True
                 hit.oponents_idea = True
                 ship.r_dead.append(r)
-                ship.r_live.remove(r)
                 add_miss_after_hit(grid, hit, r)
                 if not ship.r_live:
                     hit.oponents_idea = False
                     ship.live = False
-                    add_miss_after_hit(grid, hit, r)
+                    add_miss_after_death(grid, ship, hit)
+                    hit.idea = []
                 if ship.r_live:
                     hit.idea_ship = ship
                     for k in [-1, 1]:
                         if r[0] + k < 1 or r[0] + k > grid.lenght:
                             hit.create_idea_possibility = False
-                        for miss in grid.miss:
-                            if (r[0] + k, r[1]) == miss:
+                        if (r[0] + k, r[1]) in grid.miss:
+                            hit.create_idea_possibility = False
+                        for ships in grid.ships:
+                            if (r[0] + k, r[1]) in ships.r_dead:
                                 hit.create_idea_possibility = False
                         if hit.create_idea_possibility:
                             hit.idea.append((r[0] + k, r[1]))
@@ -300,8 +325,10 @@ def oponent_attack(grid, hit, r):
                     for m in [-1, 1]:
                         if r[1] + m < 1 or r[1] + m > grid.height:
                             hit.create_idea_possibility = False
-                        for miss in grid.miss:
-                            if (r[0], r[1] + m) == miss:
+                        if (r[0], r[1] + m) in grid.miss:
+                            hit.create_idea_possibility = False
+                        for ships in grid.ships:
+                            if (r[0], r[1] + m) in ships.r_dead:
                                 hit.create_idea_possibility = False
                         if hit.create_idea_possibility:
                             hit.idea.append((r[0], r[1] + m))

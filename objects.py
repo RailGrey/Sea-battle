@@ -42,8 +42,9 @@ class Hit:
         self.oponents_idea = False
         self.idea = []
         self.idea_ship = None
-        self.create_idea_possibility = False
+        self.create_idea_possibility = True
         self.new_list = []
+        self.choice_posibility = True
 
 
 class Ship:
@@ -170,6 +171,7 @@ class Grid:
         """Рисует уничтоженые корабли игрока
         """
         for ship in self.ships:
+            ship.draw_ship()
             ship.draw_dead_ship()
 
     def draw_dead_enemy_ships(self):
@@ -287,9 +289,9 @@ class Interface():
 
     def draw(self, game):
         self.grid_of_player.draw_grid()
+        self.grid_of_player.draw_miss_shot()
         self.grid_of_player.draw_your_ships()
         self.grid_of_player.draw_dead_your_ships()
-        self.grid_of_player.draw_miss_shot()
         self.grid_of_oponent.draw_grid()
         self.grid_of_oponent.draw_dead_enemy_ships()
         self.start.draw(self.screen)

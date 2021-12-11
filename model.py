@@ -198,6 +198,10 @@ def player_hit(grid, r):
                             for missed in grid.miss:
                                 if (r[0] + k, r[1] + m) == missed:
                                     hit.add_miss_possibility = False
+                            if r[0]+k < 1 or r[0]+k > grid.lenght:
+                                hit.add_miss_possibility = False
+                            if r[1]+k < 1 or r[0]+k > grid.height:
+                                hit.add_miss_possibility = False
                             if hit.add_miss_possibility:
                                 grid.miss.append((r[0] + k, r[1] + m))
                             hit.add_miss_possibility = True
@@ -212,6 +216,10 @@ def player_hit(grid, r):
                                         for missed in grid.miss:
                                             if (R[0] + m, R[1] + k) == missed:
                                                 hit.exist = True
+                                        if R[0] + m < 1 or R[0] + m > grid.lenght:
+                                            hit.exist = True
+                                        if R[1] + k < 1 or R[1] + k > grid.height:
+                                            hit.exist = True
                                         if not hit.exist:
                                             grid.miss.append((R[0] + m, R[1] + k))
                                         if hit.exist:

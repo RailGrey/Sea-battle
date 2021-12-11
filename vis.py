@@ -8,5 +8,17 @@ RED = (255, 0, 0)
 
 block_size = 50
 
+
+def draw_activate(grid, r):
+    """Показывает что мы активировали клетку
+    Input:
+    grid - сетка на которой это происходит
+    r - координата клетки
+    """
+    pygame.draw.rect(grid.screen, GREEN_BLUE,
+                     (grid.x + (r[0] - 1) * grid.block_size, grid.y + (r[1] - 1) * grid.block_size,
+                      block_size, block_size), 5)
+
+
 def draw_game(interface):
     interface.draw()

@@ -166,10 +166,8 @@ def manual_placement(grid, r1, r2, len_ship):
     if possibility.value:
         new_ship = Ship(grid, possibility.r_ship)
         grid.ships += [new_ship]
-        print('заработало')
 
     elif not possibility.value:
-        print('нельзя!')
 
 
 def player_hit(grid, r):

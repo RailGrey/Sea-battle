@@ -17,10 +17,12 @@ class Possibility:
         r_ship - координаты нового корабля
         dirrection - в каком направлении построить корабль. задается двумя значениями (z1, z2)
         """
+
     def __init__(self, value=True):
         self.value = value
         self.r_ship = []
         self.dirrection = (0, 0)
+
 
 class Hit():
     """Класс для корректной работы хода игрока и опонента
@@ -28,10 +30,12 @@ class Hit():
     possibilty - возможно ли выстрелить в эту точку поля.
     attack - была ли произведена атака. True - была, False - не была.
     """
-    def __init__(self):
+
+    def __init__(self, ship = None):
         self.possibility = True
         self.attack = False
         self.exist = False
+
 
 class Ship:
     """
@@ -66,7 +70,7 @@ class Ship:
         for i in self.r_live:
             pygame.draw.rect(self.grid.screen, BLUE, (self.grid.x + self.block_size * (i[0] - 1) + 1,
                                                       self.grid.y + self.block_size * (i[1] - 1) + 1,
-                                                      self.block_size - 1, self.block_size - 1))
+                                                      self.block_size, self.block_size))
 
     def draw_dead_ship(self):
         """
@@ -168,8 +172,9 @@ class Grid:
         """Рисует промахи
         """
         for miss in self.miss:
-            pygame.draw.circle(self.screen, self.color, (self.x + miss[0] * self.block_size,
-                                                         self.y + miss[1] * self.block_size), self.block_size//10)
+            pygame.draw.circle(self.screen, self.color, (self.x + miss[0] * self.block_size - self.block_size // 2,
+                                                         self.y + miss[1] * self.block_size - self.block_size // 2),
+                               self.block_size // 8)
 
 
 class Button:
@@ -246,8 +251,8 @@ class Interface():
         self.grid_of_player.x = 25
         self.grid_of_player.y = 25
         self.grid_of_player.rect = (
-        self.grid_of_player.x, self.grid_of_player.y, self.grid_of_player.lenght * self.grid_of_player.block_size,
-        self.grid_of_player.height * self.grid_of_player.block_size)
+            self.grid_of_player.x, self.grid_of_player.y, self.grid_of_player.lenght * self.grid_of_player.block_size,
+            self.grid_of_player.height * self.grid_of_player.block_size)
 
         # create and place oponent's grid
         self.grid_of_oponent = Grid(12, 10, screen, (0, 0, 0))
@@ -255,8 +260,9 @@ class Interface():
         self.grid_of_oponent.x = width / 2 + 25
         self.grid_of_oponent.y = 25
         self.grid_of_oponent.rect = (
-        self.grid_of_oponent.x, self.grid_of_oponent.y, self.grid_of_oponent.lenght * self.grid_of_oponent.block_size,
-        self.grid_of_oponent.height * self.grid_of_oponent.block_size)
+            self.grid_of_oponent.x, self.grid_of_oponent.y,
+            self.grid_of_oponent.lenght * self.grid_of_oponent.block_size,
+            self.grid_of_oponent.height * self.grid_of_oponent.block_size)
 
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
@@ -271,8 +277,7 @@ class Interface():
         self.grid_of_oponent.draw_grid()
         self.grid_of_oponent.draw_dead_enemy_ships()
         self.start.draw(self.screen)
-        if not(game):
+        if not (game):
             self.placement_of_ships.draw(self.screen)
             self.manual_placement.draw(self.screen)
         self.grid_of_oponent.draw_miss_shot()
-

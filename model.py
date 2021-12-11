@@ -190,7 +190,7 @@ def player_hit(grid, r):
         for ship in grid.ships:
             for i in ship.r_live:
                 if r == i:
-                    ship.r_dead.append(r)
+                    ship.r_dead.append((int(r[0]), int(r[1])))
                     ship.r_live.remove(i)
                     hit.attack = True
                     if not ship.r_live:
@@ -205,6 +205,9 @@ def player_hit(grid, r):
                                             hit.exist = True
                                     if not hit.exist:
                                         grid.miss.append((r[0] + m, r[1] + k))
+                                    if hit.exist:
+                                        hit.exist = False
+
         if not hit.attack:
             grid.miss.append(r)
     return hit.possibility

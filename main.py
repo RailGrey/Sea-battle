@@ -12,7 +12,10 @@ WIDTH = 1000
 # window with game, rectangle(left up angle cors, width, height)
 game_window = (0, 0, 800, 800)
 FPS = 30
-   
+
+
+grid_lenght = int(input('Введите длину поля: '))
+grid_hieght = int(input('Введите ширину поля: '))
 
 
 def main():
@@ -26,7 +29,7 @@ def main():
     first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    interface = Interface(screen, WIDTH, HEIGHT)
+    interface = Interface(screen, WIDTH, HEIGHT, grid_lenght, grid_hieght)
     placement_of_ship(interface.grid_of_oponent)
     while Main:
         screen.fill(WHITE)
@@ -35,7 +38,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False
-        Placement, Game, first_click = event_manage(event, interface, Placement, Game, first_click)
+        Placement, Game, first_click, turn_of_player = event_manage(event, interface, Placement, Game, first_click, turn_of_player)
         pygame.display.update()
           
     pygame.quit()

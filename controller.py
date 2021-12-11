@@ -11,7 +11,7 @@ def mouse_pos_check(mouse_pos, rect):
         return False
 
 
-def event_manage(event, interface, placement, game, first_click):
+def event_manage(event, interface, placement, game, first_click, turn_of_player):
     """manages event from the game"""
     if event.type == pygame.MOUSEBUTTONDOWN:
         if mouse_pos_check(event.pos, interface.grid_of_player.rect):  # if mouse on game window
@@ -58,7 +58,7 @@ def event_manage(event, interface, placement, game, first_click):
                     model.placement_of_ship(interface.grid_of_player)
                 game = True
 
-    return placement, game, first_click
+    return placement, game, first_click, turn_of_player
 
 
 def mouse_grid_pose_check(mouse_pos, interface):

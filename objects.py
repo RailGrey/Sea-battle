@@ -245,10 +245,10 @@ class Interface():
     grid_of_oponent - сетка противника
     """
 
-    def __init__(self, screen, width, height):
+    def __init__(self, screen, width, height, grid_lenght, grid_height):
         self.screen = screen
         # create and place player's grid
-        self.grid_of_player = Grid(12, 10, screen, (0, 0, 0))
+        self.grid_of_player = Grid(grid_lenght, grid_height, screen, (0, 0, 0))
         block_size = min((width / 2 - 50) / self.grid_of_player.lenght,
                          (height - 250) / self.grid_of_player.height)
         self.grid_of_player.block_size = block_size
@@ -259,7 +259,7 @@ class Interface():
             self.grid_of_player.height * self.grid_of_player.block_size)
 
         # create and place oponent's grid
-        self.grid_of_oponent = Grid(12, 10, screen, (0, 0, 0))
+        self.grid_of_oponent = Grid(grid_lenght, grid_height, screen, (0, 0, 0))
         self.grid_of_oponent.block_size = block_size
         self.grid_of_oponent.x = width / 2 + 25
         self.grid_of_oponent.y = 25

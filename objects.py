@@ -108,6 +108,7 @@ class Grid:
         self.rect = 0
         self.ships = ships
 
+
     def draw_grid(self):
         """ Рисует сетку игрового поля.
         """
@@ -138,6 +139,11 @@ class Grid:
         """
         for ship in self.ships:
             ship.draw_enemy_dead_ship()
+
+    def draw_miss_shot(self):
+        """Рисует промахи
+        """
+
 class Button:
     """
     Класс кнопок

@@ -11,7 +11,7 @@ WIDTH = 1000
 
 # window with game, rectangle(left up angle cors, width, height)
 game_window = (0, 0, 800, 800)
-FPS = 30
+FPS = 10
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     interface = Interface(screen, WIDTH, HEIGHT)
-    #placement_of_ship()
+    placement_of_ship(interface.grid_of_oponent)
     while Main:
         screen.fill(WHITE)
         clock.tick(FPS)

@@ -49,8 +49,8 @@ def placement_of_ship(grid):
                         #print("исключений нет")
 
                 else:
-                  popit=0
-                  #print("исключения есть")
+                    popit=0
+                    #print("исключения есть")
 
 
             Yaround=-1-m*(1-sign(rotY+0.5))//2
@@ -99,3 +99,7 @@ def placement_of_ship(grid):
     #end of Spawn (m+1)-x
     #popitshipplacement=1 
     grid.ships = ShipsPositions
+    
+    
+    
+    

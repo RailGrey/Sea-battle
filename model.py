@@ -124,20 +124,19 @@ def manual_placement(grid, r1, r2, len_ship):
      r2 - вторая координата (x,y)
      len_ship - длина корабля
      """
-    possibility = Possibilty()
-    dirrection = None
+    possibility = Possibility()
     delta_rx = r2[0] - r1[0]
     delta_ry = r2[1] - r1[1]
     if len_ship != 1:
         if r1 == r2:
             possibility.value = False
+
     for ship in grid.ships:
         for i in ship.r_live:
             if ((r1[0]-i[0])**2+(r1[1]-i[1])**2) <= 2:
                 possibility.value = False
 
     if possibility.value:
-
         if delta_ry > delta_rx and delta_ry > -delta_rx:
             possibility.dirrection = (0, 1)
             if r1[1] - len_ship < 0:
@@ -172,8 +171,41 @@ def manual_placement(grid, r1, r2, len_ship):
     elif not possibility.value:
         print('нельзя!')
 
-'''def pl'''
-        
-        
 
-
+def player_hit(grid, r):
+    """Совершает ход игрока. Уничтожает корабль врага если попал, и промахивается иначе.
+    Если выстрела не было возвращает False. Если же был - True. Если корабль уничтожен - добавляет промахи
+    Input:
+    grid - объект класса Grid. Вражеская сетка
+    r - координаты в клетках (x, y)
+    """
+    hit = Hit()
+    for i in grid.miss:
+        if r == i:
+            hit.possibility = False
+    for i in grid.ships:
+        for j in i.r_dead:
+            if r == j:
+                hit.possibility = False
+    if hit.possibility:
+        for ship in grid.ships:
+            for i in ship.r_live:
+                if r == i:
+                    ship.r_dead.append(r)
+                    ship.r_live.remove(i)
+                    hit.attack = True
+                    if not ship.r_live:
+                        ship.live = False
+                        for m in [-1, 0, 1]:
+                            for k in [-1, 0, 1]:
+                                for j in ship.r_dead:
+                                    if (r[0] + m, r[1] + k) == j:
+                                        hit.exist = True
+                                    for missed in grid.miss:
+                                        if (r[0] + m, r[1] + k) == missed:
+                                            hit.exist = True
+                                    if not hit.exist:
+                                        grid.miss.append((r[0] + m, r[1] + k))
+        if not hit.attack:
+            grid.miss.append(r)
+    return hit.possibility

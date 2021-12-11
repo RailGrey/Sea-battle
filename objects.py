@@ -228,6 +228,7 @@ class Interface():
                                      self.grid_of_oponent.height * self.grid_of_oponent.block_size)
 
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
+        self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
         self.grids = [self.grid_of_player, self.grid_of_oponent]
 
 
@@ -238,3 +239,4 @@ class Interface():
         self.grid_of_oponent.draw_grid()
         self.grid_of_oponent.draw_dead_enemy_ships()
         self.placement_of_ships.draw(self.screen)
+        self.manual_placement.draw(self.screen)

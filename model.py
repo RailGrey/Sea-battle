@@ -1,5 +1,6 @@
 import pygame
 import random
+from controller import mouse_pos_check
 from objects import *
 
 def modul(mod):
@@ -110,20 +111,9 @@ def placement_of_ship(grid):
         m-=1
         
     #end of Spawn (m+1)-x
-<<<<<<< HEAD
+
     #popitshipplacement=1 
     grid.ships = ShipsPositions
-    
-    
-    
-    
-=======
-    #popitshipplacement=1
-    
-    grid.ships = ShipsPositions
-<<<<<<< HEAD
->>>>>>> 550f8aafa82c6fc0915bbc5ab3fe8aa6ed4fbafa
-=======
 
 
 def manual_placement(grid, r1, r2, len_ship):
@@ -175,4 +165,8 @@ def manual_placement(grid, r1, r2, len_ship):
     if possibility:
         new_ship = Ship(grid, r_ship)
         grid.ships += [new_ship]
->>>>>>> 7a71f6ba3a82f4ce0cb53f3adcef5bb8c07fc6b5
+        
+        
+        
+
+

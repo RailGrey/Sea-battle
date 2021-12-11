@@ -11,13 +11,17 @@ def mouse_pos_check(mouse_pos, rect):
         return False
 
 
-def event_manage(event, interface, pressed_mouse):
+def event_manage(event, interface, placement, game, first_click):
     """manages event from the game"""
     if event.type == pygame.MOUSEBUTTONDOWN:
         if mouse_pos_check(event.pos, interface.grid_of_player.rect):  # if mouse on game window
             # if pressed button is left mouse button
-            if event.button == 1:
-                pressed_mouse = True
+            if event.button == 1 and placement:
+                if first_click[0] == 10000:
+                    first_click = event.pos
+                else:
+                    model.manual_placement(interface.grid_of_player, first_click, event.pos, 2)  
+                    first_click = (10000, 10000)
 
         else:
             # if pressed button is left mouse button
@@ -28,9 +32,13 @@ def event_manage(event, interface, pressed_mouse):
                 interface.placement_of_ships.bg_color = interface.placement_of_ships.text_color
                 interface.placement_of_ships.text_color = color
                 model.placement_of_ship(interface.grid_of_player)
-                print(interface.grid_of_player.ships)
-
-    # return field, pressed_mouse
+            if mouse_pos_check(pygame.mouse.get_pos(), interface.manual_placement.bg_rect) and not(game):
+                color = interface.manual_placement.bg_color
+                interface.manual_placement.bg_color = interface.manual_placement.text_color
+                interface.manual_placement.text_color = color                
+                placement = True
+    
+    return placement, game, first_click
 
 
 def mouse_grid_pose_check(mouse_pos, interface):

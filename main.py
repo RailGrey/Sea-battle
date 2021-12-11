@@ -12,13 +12,17 @@ WIDTH = 1000
 # window with game, rectangle(left up angle cors, width, height)
 game_window = (0, 0, 800, 800)
 FPS = 10
+   
 
 
 def main():
     """main function of the game, everything starts here"""
-    global Main, screen
+    global Main, Placement, Game, screen
     pygame.init()
     Main = True
+    Placement = False
+    Game = False
+    first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     interface = Interface(screen, WIDTH, HEIGHT)
@@ -30,8 +34,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False
-        event_manage(event, interface, 1)
+        Placement, Game, first_click = event_manage(event, interface, Placement, Game, first_click)
         pygame.display.update()
+          
     pygame.quit()
     
     

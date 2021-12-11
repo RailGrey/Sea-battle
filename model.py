@@ -191,44 +191,114 @@ def player_hit(grid, r):
                     ship.r_dead.append((int(r[0]), int(r[1])))
                     ship.r_live.remove(i)
                     hit.attack = True
-                    for k in [-1, 1]:
-                        for m in [-1, 1]:
-                            for missed in grid.miss:
-                                if (r[0] + k, r[1] + m) == missed:
-                                    hit.add_miss_possibility = False
-                            if r[0]+k < 1 or r[0]+k > grid.lenght:
-                                hit.add_miss_possibility = False
-                            if r[1]+m < 1 or r[1]+m > grid.height:
-                                hit.add_miss_possibility = False
-                            if hit.add_miss_possibility:
-                                grid.miss.append((r[0] + k, r[1] + m))
-                            hit.add_miss_possibility = True
+                    add_miss_after_hit(grid, hit, r)
                     if not ship.r_live:
                         ship.live = False
-                        for R in ship.r_dead:
-                            for m in [-1, 0, 1]:
-                                for k in [-1, 0, 1]:
-                                    for j in ship.r_dead:
-                                        if (R[0] + m, R[1] + k) == j:
-                                            hit.exist = True
-                                        for missed in grid.miss:
-                                            if (R[0] + m, R[1] + k) == missed:
-                                                hit.exist = True
-                                        if R[0] + m < 1 or R[0] + m > grid.lenght:
-                                            hit.exist = True
-                                        if R[1] + k < 1 or R[1] + k > grid.height:
-                                            hit.exist = True
-                                        if not hit.exist:
-                                            grid.miss.append((R[0] + m, R[1] + k))
-                                        if hit.exist:
-                                            hit.exist = False
+                        add_miss_after_death(grid, ship, hit)
 
         if not hit.attack:
             grid.miss.append(r)
     return hit.possibility
 
+
 def oponent_turn(grid):
+<<<<<<< HEAD
     pass
 
 
 
+=======
+    oponent_hit = Hit()
+    oponent_hit.oponents_start_list = [(i, j) for i in (range(1, grid.lenght, 1)) for j in (range(1, grid.height, 1))]
+    oponent_hit.new_list = []
+    for i in oponent_hit.oponents_start_list:
+        if not (i in grid.miss):
+            for ship in grid.ships:
+                for j in ship.r_dead:
+                    if i != j:
+                        oponent_hit.new_list.append(i)
+    oponent_hit.oponents_possible_hit = oponent_hit.new_list
+
+    if oponent_hit.oponents_idea:
+        r_attack_index = random.randint(0, len(oponent_hit.idea) - 1)
+        r_attack = oponent_hit.idea[r_attack_index]
+        oponent_attack(grid, oponent_hit, r_attack)
+
+    else:
+        r_attack_index = random.randint(0, len(oponent_hit.oponents_possible_hit) - 1)
+        r_attack = oponent_hit.oponents_possible_hit[r_attack_index]
+        oponent_attack(grid, oponent_hit, r_attack)
+
+
+def add_miss_after_death(grid, ship, hit):
+    """Отбрасывает ненужные клетки после уничтожения корабля"""
+    for R in ship.r_dead:
+        for m in [-1, 0, 1]:
+            for k in [-1, 0, 1]:
+                for j in ship.r_dead:
+                    if (R[0] + m, R[1] + k) == j:
+                        hit.exist = True
+                    for missed in grid.miss:
+                        if (R[0] + m, R[1] + k) == missed:
+                            hit.exist = True
+                    if R[0] + m < 1 or R[0] + m > grid.lenght:
+                        hit.exist = True
+                    if R[1] + k < 1 or R[1] + k > grid.height:
+                        hit.exist = True
+                    if not hit.exist:
+                        grid.miss.append((R[0] + m, R[1] + k))
+                    if hit.exist:
+                        hit.exist = False
+
+
+def add_miss_after_hit(grid, hit, r):
+    """Отбрасывает ненужныне клетки после успешного попадания"""
+    for k in [-1, 1]:
+        for m in [-1, 1]:
+            for missed in grid.miss:
+                if (r[0] + k, r[1] + m) == missed:
+                    hit.add_miss_possibility = False
+            if r[0] + k < 1 or r[0] + k > grid.lenght:
+                hit.add_miss_possibility = False
+            if r[1] + m < 1 or r[1] + m > grid.height:
+                hit.add_miss_possibility = False
+            if hit.add_miss_possibility:
+                grid.miss.append((r[0] + k, r[1] + m))
+            hit.add_miss_possibility = True
+
+
+def oponent_attack(grid, hit, r):
+    """Ход опонента"""
+    for ship in grid.ships:
+        for ship_r in ship.r_live:
+            if r == ship_r:
+                hit.attack = True
+                hit.oponents_idea = True
+                ship.r_dead.append(r)
+                ship.r_live.remove(r)
+                add_miss_after_hit(grid, hit, r)
+                if not ship.r_live:
+                    hit.oponents_idea = False
+                    ship.live = False
+                    add_miss_after_hit(grid, hit, r)
+                if ship.r_live:
+                    hit.idea_ship = ship
+                    for k in [-1, 1]:
+                        if r[0] + k < 1 or r[0] + k > grid.lenght:
+                            hit.create_idea_possibility = False
+                        for miss in grid.miss:
+                            if (r[0] + k, r[1]) == miss:
+                                hit.create_idea_possibility = False
+                        if hit.create_idea_possibility:
+                            hit.idea.append((r[0] + k, r[1]))
+                        hit.create_idea_possibility = True
+                    for m in [-1, 1]:
+                        if r[1] + m < 1 or r[1] + m > grid.height:
+                            hit.create_idea_possibility = False
+                        for miss in grid.miss:
+                            if (r[0], r[1] + m) == miss:
+                                hit.create_idea_possibility = False
+                        if hit.create_idea_possibility:
+                            hit.idea.append((r[0], r[1] + m))
+                        hit.create_idea_possibility = True
+>>>>>>> fcad65ed37314ce415bc87e8939e3cad22f62875

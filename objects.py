@@ -260,6 +260,7 @@ class Interface():
 
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
+        self.start = Button((450, 650, 120, 60), (0, 255, 0), (0, 0, 255), 50, 'Старт', 'Старт')
         self.grids = [self.grid_of_player, self.grid_of_oponent]
 
     def draw(self, game):
@@ -269,12 +270,9 @@ class Interface():
         self.grid_of_player.draw_miss_shot()
         self.grid_of_oponent.draw_grid()
         self.grid_of_oponent.draw_dead_enemy_ships()
-<<<<<<< HEAD
+        self.start.draw(self.screen)
         if not(game):
             self.placement_of_ships.draw(self.screen)
             self.manual_placement.draw(self.screen)
-=======
         self.grid_of_oponent.draw_miss_shot()
-        self.placement_of_ships.draw(self.screen)
-        self.manual_placement.draw(self.screen)
->>>>>>> b1afe752850a64355c8ece6b5a7f28b7cdef7c59
+

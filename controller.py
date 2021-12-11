@@ -34,7 +34,10 @@ def event_manage(event, interface, placement, game, first_click):
                     second_click = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
                     model.manual_placement(interface.grid_of_player, first_click, second_click, lenth)  
                     first_click = (10000, 10000)
-
+        elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
+            if event.button == 1:
+                x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
+                model.player_hit(interface.grid_of_oponent, x)               
         else:
             if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not(game):
                 color = interface.placement_of_ships.bg_color
@@ -47,7 +50,12 @@ def event_manage(event, interface, placement, game, first_click):
                 interface.manual_placement.text_color = color                
                 placement = True
                 interface.grid_of_player.ships = []
-    
+            if mouse_pos_check(pygame.mouse.get_pos(), interface.start.bg_rect):
+                color = interface.start.bg_color
+                interface.start.bg_color = interface.start.text_color
+                interface.start.text_color = color  
+                game = True
+
     return placement, game, first_click
 
 

@@ -10,6 +10,12 @@ BLUE = (45, 48, 140)
 ENEMY = (31, 191, 36)
 
 
+class Possibilty():
+    def __init__(self, value=True):
+        self.value = value
+        self.r_ship = []
+        self.dirrection = (0, 0)
+
 class Ship:
     """
     Класс для кораблей
@@ -108,7 +114,6 @@ class Grid:
         self.rect = 0
         self.ships = ships
 
-
     def draw_grid(self):
         """ Рисует сетку игрового поля.
         """
@@ -144,6 +149,7 @@ class Grid:
         """Рисует промахи
         """
 
+
 class Button:
     """
     Класс кнопок
@@ -157,6 +163,7 @@ class Button:
        text - текст
        text_pressed - текст при нажатии
     """
+
     def __init__(self, bg_rect: list, text_color, bg_color, size, text, text_pressed=''):
         """
         bg_rect = list [x, y, width, height] where x,y - coordinates of left top angle of rect of background
@@ -216,21 +223,22 @@ class Interface():
         self.grid_of_player.block_size = block_size
         self.grid_of_player.x = 25
         self.grid_of_player.y = 25
-        self.grid_of_player.rect = (self.grid_of_player.x, self.grid_of_player.y, self.grid_of_player.lenght * self.grid_of_player.block_size,
-                                    self.grid_of_player.height * self.grid_of_player.block_size)
+        self.grid_of_player.rect = (
+        self.grid_of_player.x, self.grid_of_player.y, self.grid_of_player.lenght * self.grid_of_player.block_size,
+        self.grid_of_player.height * self.grid_of_player.block_size)
 
         # create and place oponent's grid
         self.grid_of_oponent = Grid(10, 10, screen, (0, 0, 0))
         self.grid_of_oponent.block_size = block_size
         self.grid_of_oponent.x = width / 2 + 25
         self.grid_of_oponent.y = 25
-        self.grid_of_oponent.rect = (self.grid_of_oponent.x, self.grid_of_oponent.y, self.grid_of_oponent.lenght * self.grid_of_oponent.block_size,
-                                     self.grid_of_oponent.height * self.grid_of_oponent.block_size)
+        self.grid_of_oponent.rect = (
+        self.grid_of_oponent.x, self.grid_of_oponent.y, self.grid_of_oponent.lenght * self.grid_of_oponent.block_size,
+        self.grid_of_oponent.height * self.grid_of_oponent.block_size)
 
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
         self.grids = [self.grid_of_player, self.grid_of_oponent]
-
 
     def draw(self):
         self.grid_of_player.draw_grid()

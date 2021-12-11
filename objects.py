@@ -219,6 +219,7 @@ class Interface():
                                      self.grid_of_oponent.height * self.grid_of_oponent.block_size)
 
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
+        self.grids = [self.grid_of_player, self.grid_of_oponent]
 
 
     def draw(self):

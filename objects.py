@@ -24,7 +24,7 @@ class Possibility:
         self.dirrection = (0, 0)
 
 
-class Hit():
+class Hit:
     """Класс для корректной работы хода игрока и опонента
     Атрибуты:
     possibilty - возможно ли выстрелить в эту точку поля.
@@ -38,6 +38,12 @@ class Hit():
         self.attack = False
         self.exist = False
         self.add_miss_possibility = True
+        self.oponents_start_list = []
+        self.oponents_idea = False
+        self.idea = []
+        self.idea_ship = None
+        self.create_idea_possibility = False
+        self.new_list = []
 
 
 class Ship:

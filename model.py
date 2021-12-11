@@ -128,6 +128,9 @@ def manual_placement(grid, r1, r2, len_ship):
     dirrection = None
     delta_rx = r2[0] - r1[0]
     delta_ry = r2[1] - r1[1]
+    if len_ship != 1:
+        if r1 == r2:
+            possibility.value = False
     for ship in grid.ships:
         for i in ship.r_live:
             if ((r1[0]-i[0])**2+(r1[1]-i[1])**2) <= 2:
@@ -136,7 +139,7 @@ def manual_placement(grid, r1, r2, len_ship):
     if possibility.value:
 
         if delta_ry > delta_rx and delta_ry > -delta_rx:
-            possibility.dirrection = (0, -1)
+            possibility.dirrection = (0, 1)
             if r1[1] - len_ship < 0:
                 possibility.value = False
         elif delta_rx < delta_ry < -delta_rx:
@@ -148,7 +151,7 @@ def manual_placement(grid, r1, r2, len_ship):
             if r1[0] + len_ship > grid.lenght + 1:
                 possibility.value = False
         elif delta_ry < delta_rx and delta_ry < -delta_rx:
-            possibility.dirrection = (0, 1)
+            possibility.dirrection = (0, -1)
             if r1[1] + len_ship > grid.height + 1:
                 possibility.value = False
 
@@ -168,7 +171,8 @@ def manual_placement(grid, r1, r2, len_ship):
 
     elif not possibility.value:
         print('нельзя!')
-        
+
+'''def pl'''
         
         
 

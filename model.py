@@ -217,9 +217,8 @@ def oponent_turn(grid):
     for i in oponent_hit.oponents_start_list:
         if not (i in grid.miss):
             for ship in grid.ships:
-                for j in ship.r_dead:
-                    if i != j:
-                        oponent_hit.new_list.append(i)
+                if not (i in ship.r_dead):
+                    oponent_hit.new_list.append(i)
     oponent_hit.oponents_possible_hit = oponent_hit.new_list
 
     if oponent_hit.oponents_idea:

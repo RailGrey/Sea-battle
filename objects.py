@@ -29,12 +29,15 @@ class Hit():
     Атрибуты:
     possibilty - возможно ли выстрелить в эту точку поля.
     attack - была ли произведена атака. True - была, False - не была.
+    exist - параметр для нахождения возможности добавить элемент в список промахов
+    add_miss_possibilty - параметр для нахождения возможности добавить элемент в список промахов
     """
 
-    def __init__(self, ship = None):
+    def __init__(self):
         self.possibility = True
         self.attack = False
         self.exist = False
+        self.add_miss_possibility = True
 
 
 class Ship:

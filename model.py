@@ -193,6 +193,14 @@ def player_hit(grid, r):
                     ship.r_dead.append((int(r[0]), int(r[1])))
                     ship.r_live.remove(i)
                     hit.attack = True
+                    for k in [-1, 1]:
+                        for m in [-1, 1]:
+                            for missed in grid.miss:
+                                if (r[0] + k, r[1] + m) == missed:
+                                    hit.add_miss_possibility = False
+                            if hit.add_miss_possibility:
+                                grid.miss.append((r[0] + k, r[1] + m))
+                            hit.add_miss_possibility = True
                     if not ship.r_live:
                         ship.live = False
                         for R in ship.r_dead:

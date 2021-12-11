@@ -168,6 +168,7 @@ def manual_placement(grid, r1, r2, len_ship):
         grid.ships += [new_ship]
 
     elif not possibility.value:
+        print('Нельзя поставить так')
 
 
 def player_hit(grid, r):

@@ -86,6 +86,9 @@ class Grid:
     hight - высота сетки в клетках
     screen - экран на котором та сетка
     scale - масштаб. по стандарту 1 = 50 пикселей
+    block_size - длина клеток в пикселях
+    color - цвет сетки
+    ships - массив кораблей связаный с этой сеткой
     ---------------
     Методы:
 
@@ -219,6 +222,7 @@ class Interface():
                                      self.grid_of_oponent.height * self.grid_of_oponent.block_size)
 
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
+        self.grids = [self.grid_of_player, self.grid_of_oponent]
 
 
     def draw(self):

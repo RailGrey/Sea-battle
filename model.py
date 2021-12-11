@@ -21,7 +21,9 @@ def placement_of_ship(grid):
     ###!!! тут номерация с 0, но переводится в итоге с 1 как и требуется в других частях кода
     ShipsPositions=[]
     Positions_list=[(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)]
-    for m in range(MaxPalubn-1,-1,-1):
+    #for m in range(MaxPalubn-1,-1,-1):
+    m=MaxPalubn-1
+    while m>-1:
         n=0
         #Spawn (m+1)-x
         while n<=MaxPalubn-1-m:
@@ -31,12 +33,15 @@ def placement_of_ship(grid):
             y=Positions_list[position]-10**len(str(max(intXboard,intYboard)-1))*x
     
             popit=0
-            while popit == 0:
+            zacicl=0
+            while popit == 0 and zacicl<4:
                 rot1 = random.randint(1, 4)                     #Change rotation 1-up,2-right,3-down,4-left
                 rot2 = random.randint(0, 1)
                 rotY = int((1 - (-1) ** rot1) * (0.5 - rot2))
                 rotX = int((1 - (-1) ** (rot1 - 1)) * (0.5 - rot2))
                 popit = 1
+                zacicl +=1
+                print("popit crash")
                 if 0 <= (x + m * rotX) <= intXboard - 1 and 0 <= (y + m * rotY) <= intYboard - 1:
 
                     try:
@@ -96,10 +101,24 @@ def placement_of_ship(grid):
                     except ValueError:i+=1
                 else: i+=1
             n+=1
+            if zacicl==4:
+                m=MaxPalubn
+                n=0
+                ShipsPositions=[]
+                Positions_list=[(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for j in range(intYboard)]
+    
+        m-=1
+        
     #end of Spawn (m+1)-x
+<<<<<<< HEAD
     #popitshipplacement=1 
     grid.ships = ShipsPositions
     
     
     
     
+=======
+    #popitshipplacement=1
+    
+    grid.ships = ShipsPositions
+>>>>>>> 550f8aafa82c6fc0915bbc5ab3fe8aa6ed4fbafa

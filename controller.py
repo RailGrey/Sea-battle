@@ -20,7 +20,16 @@ def event_manage(event, interface, placement, game, first_click):
                 if first_click[0] == 10000:
                     first_click = event.pos
                 else:
-                    model.manual_placement(interface.grid_of_player, first_click, event.pos, 2)  
+                    count = len(interface.grid_of_player.ships)
+                    if count < 4:
+                        lenth = 1
+                    elif count < 7:
+                        lenth = 2
+                    elif count < 9:
+                        lenth = 3
+                    else:
+                        lenth = 4
+                    model.manual_placement(interface.grid_of_player, first_click, event.pos, lenth)  
                     first_click = (10000, 10000)
 
         else:

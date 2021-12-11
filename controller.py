@@ -21,19 +21,13 @@ def event_manage(event, interface, placement, game, first_click, turn_of_player)
                     first_click = event.pos
                 else:
                     count = len(interface.grid_of_player.ships)
-                    print(count)
-                    if count < 4:
-                        lenth = 1
-                    elif count < 7:
-                        lenth = 2
-                    elif count < 9:
-                        lenth = 3
-                    else:
-                        lenth = 4
+                    lenth = which_size(count, interface.grid_of_player.MaxPalubn)
                     first_click = (mouse_grid_pose_check(first_click, interface)[1], mouse_grid_pose_check(first_click, interface)[2])
                     second_click = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
                     model.manual_placement(interface.grid_of_player, first_click, second_click, lenth)  
                     first_click = (10000, 10000)
+                    if len(interface.grid_of_player.ships) == (interface.grid_of_player.MaxPalubn + 1) * len(interface.grid_of_player.ships) // 2:
+                        placement = False
         elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
             if event.button == 1:
                 x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
@@ -82,3 +76,17 @@ def mouse_grid_pose_check(mouse_pos, interface):
             y = (mouse_pos[1] - top_y) // block_size + 1
             check_out = [grid, x, y]
     return check_out
+
+
+def which_size(count, max_lenth):
+    lenth = max_lenth
+    size = 1
+    flag = True
+    while flag:
+        if count < lenth:
+            return size
+        else:
+            lenth += max_lenth - size
+            size += 1
+            if size == max_lenth + 1:
+                return 0

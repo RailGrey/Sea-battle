@@ -16,7 +16,7 @@ FPS = 30
 
 grid_lenght = int(input('Введите длину поля: '))
 grid_hieght = int(input('Введите ширину поля: '))
-
+MaxPalubn = int(input('Введите максимальную длину корабля: '))
 
 def main():
     """main function of the game, everything starts here"""
@@ -29,7 +29,7 @@ def main():
     first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    interface = Interface(screen, WIDTH, HEIGHT, grid_lenght, grid_hieght)
+    interface = Interface(screen, WIDTH, HEIGHT, grid_lenght, grid_hieght, MaxPalubn)
     placement_of_ship(interface.grid_of_oponent)
     while Main:
         screen.fill(WHITE)

@@ -3,6 +3,14 @@ import random
 from controller import mouse_pos_check
 from objects import *
 
+
+def is_alive(ships):
+    for i in range(len(ships)):
+        if ships[i].live:
+            return True
+    return False
+        
+        
 def modul(mod):
     if mod >= 0:
         return  mod

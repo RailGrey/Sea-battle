@@ -20,7 +20,6 @@ MaxPalubn = int(input('Введите максимальную длину кор
 
 def main():
     """main function of the game, everything starts here"""
-    global Main, Placement, Game, screen
     pygame.init()
     Main = True
     Placement = False
@@ -38,7 +37,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False
-        Placement, Game, first_click, turn_of_player = event_manage(event, interface, Placement, Game, first_click, turn_of_player)
+        Main, Placement, Game, first_click, turn_of_player = event_manage(event, interface, Main, Placement, Game, first_click, turn_of_player)
         pygame.display.update()
           
     pygame.quit()

@@ -121,4 +121,58 @@ def placement_of_ship(grid):
     #popitshipplacement=1
     
     grid.ships = ShipsPositions
+<<<<<<< HEAD
 >>>>>>> 550f8aafa82c6fc0915bbc5ab3fe8aa6ed4fbafa
+=======
+
+
+def manual_placement(grid, r1, r2, len_ship):
+    """Функция для ручной расстановки кораблей
+     Input:
+     grid - сетка класса Grid
+     r1 - координата (х, у)
+     r2 - вторая координата (x,y)
+     len_ship - длина корабля
+     """
+    possibility = True
+    dirrection = None
+    r_ship = []
+    delta_rx = r2[0] - r1[0]
+    delta_ry = r2[1] - r1[1]
+    for ship in grid.ships:
+        for i in ship.r_live:
+            if ((r1[0]-i[0])**2+(r1[1]-i[1])**2) <= 2:
+                possibility = False
+
+    if possibility:
+
+        if delta_ry > delta_rx and delta_ry > -delta_rx:
+            dirrection = (0, -1)
+            if r1[1] - len_ship < 0:
+                possibility = False
+        elif delta_rx < delta_ry < -delta_rx:
+            dirrection = (-1, 0)
+            if r1[0] - len_ship < 0:
+                possibility = False
+        elif delta_rx > delta_ry > -delta_rx:
+            dirrection = (1, 0)
+            if r1[0] + len_ship > grid.lenght + 1:
+                possibility = False
+        elif delta_ry < delta_rx and delta_ry < -delta_rx:
+            dirrection = (0, 1)
+            if r1[1] + len_ship > grid.height + 1:
+                possibility = False
+
+        if possibility:
+            for i in range(len_ship):
+                r_ship += [(r1[0] + dirrection[0]*i, r1[1] + dirrection[1]*i)]
+            for r in r_ship:
+                for ship in grid.ships:
+                    for i in ship.r_live:
+                        if ((r[0] - i[0]) ** 2 + (r[1] - i[1]) ** 2) <= 2:
+                            possibility = False
+
+    if possibility:
+        new_ship = Ship(grid, r_ship)
+        grid.ships += [new_ship]
+>>>>>>> 7a71f6ba3a82f4ce0cb53f3adcef5bb8c07fc6b5

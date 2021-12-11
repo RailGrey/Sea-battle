@@ -125,7 +125,7 @@ class Grid:
 
     """
 
-    def __init__(self, lenght, height, screen, black=(0, 0, 0), ships=None):
+    def __init__(self, lenght, height, screen, black=(0, 0, 0), ships=None,MaxPalubn=4):
         if ships is None:
             ships = []
         self.x = 50
@@ -139,6 +139,7 @@ class Grid:
         self.rect = 0
         self.ships = ships
         self.miss = []
+        self.MaxPalubn=MaxPalubn
 
     def draw_grid(self):
         """ Рисует сетку игрового поля.

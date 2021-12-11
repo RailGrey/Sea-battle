@@ -33,7 +33,9 @@ def event_manage(event, interface, placement, game, first_click, turn_of_player)
         elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
             if event.button == 1:
                 x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
-                model.player_hit(interface.grid_of_oponent, x) 
+                hit_posobility = model.player_hit(interface.grid_of_oponent, x)
+                if not(hit_posobility):
+                    model.oponent_turn(interface.grid_of_player)
         else:
             #if mouse on auto-placement button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not(game):

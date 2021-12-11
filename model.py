@@ -202,12 +202,7 @@ def player_hit(grid, r):
 
 
 def oponent_turn(grid):
-<<<<<<< HEAD
-    pass
 
-
-
-=======
     oponent_hit = Hit()
     oponent_hit.oponents_start_list = [(i, j) for i in (range(1, grid.lenght, 1)) for j in (range(1, grid.height, 1))]
     oponent_hit.new_list = []
@@ -301,4 +296,4 @@ def oponent_attack(grid, hit, r):
                         if hit.create_idea_possibility:
                             hit.idea.append((r[0], r[1] + m))
                         hit.create_idea_possibility = True
->>>>>>> fcad65ed37314ce415bc87e8939e3cad22f62875
+

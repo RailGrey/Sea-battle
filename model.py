@@ -195,18 +195,19 @@ def player_hit(grid, r):
                     hit.attack = True
                     if not ship.r_live:
                         ship.live = False
-                        for m in [-1, 0, 1]:
-                            for k in [-1, 0, 1]:
-                                for j in ship.r_dead:
-                                    if (r[0] + m, r[1] + k) == j:
-                                        hit.exist = True
-                                    for missed in grid.miss:
-                                        if (r[0] + m, r[1] + k) == missed:
+                        for R in ship.r_dead:
+                            for m in [-1, 0, 1]:
+                                for k in [-1, 0, 1]:
+                                    for j in ship.r_dead:
+                                        if (R[0] + m, R[1] + k) == j:
                                             hit.exist = True
-                                    if not hit.exist:
-                                        grid.miss.append((r[0] + m, r[1] + k))
-                                    if hit.exist:
-                                        hit.exist = False
+                                        for missed in grid.miss:
+                                            if (R[0] + m, R[1] + k) == missed:
+                                                hit.exist = True
+                                        if not hit.exist:
+                                            grid.miss.append((R[0] + m, R[1] + k))
+                                        if hit.exist:
+                                            hit.exist = False
 
         if not hit.attack:
             grid.miss.append(r)

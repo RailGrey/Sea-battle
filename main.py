@@ -22,6 +22,7 @@ def main():
     Main = True
     Placement = False
     Game = False
+    turn_of_player = True
     first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))

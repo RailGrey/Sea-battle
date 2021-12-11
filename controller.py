@@ -53,7 +53,9 @@ def event_manage(event, interface, placement, game, first_click):
             if mouse_pos_check(pygame.mouse.get_pos(), interface.start.bg_rect):
                 color = interface.start.bg_color
                 interface.start.bg_color = interface.start.text_color
-                interface.start.text_color = color  
+                interface.start.text_color = color 
+                if len(interface.grid_of_player.ships) == 0:
+                    model.placement_of_ship(interface.grid_of_player)
                 game = True
 
     return placement, game, first_click

@@ -11,7 +11,7 @@ def mouse_pos_check(mouse_pos, rect):
         return False
 
 
-def event_manage(event, interface, main, placement, game, first_click, turn_of_player):
+def event_manage(event, interface, main, placement, game, first_click, hit_posobility):
     """manages event from the game"""
     if event.type == pygame.MOUSEBUTTONDOWN:
         #if mouse on player grid
@@ -33,6 +33,7 @@ def event_manage(event, interface, main, placement, game, first_click, turn_of_p
         #for Daniil!!!
         elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
             if event.button == 1:
+                last_attack_of_oponent = ''
                 x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2]) #coordinates in grid
                 hit_posobility = model.player_hit(interface.grid_of_oponent, x) #step of player
                 if not(model.is_alive(interface.grid_of_oponent.ships)): #end of game
@@ -43,9 +44,9 @@ def event_manage(event, interface, main, placement, game, first_click, turn_of_p
                     interface.grid_of_oponent.miss = [] 
                     game = False
                 if not(hit_posobility):
-                    fire = model.oponent_turn(interface.grid_of_player)
+                    fire, interface.last_attack_of_oponent = model.oponent_turn(interface.grid_of_player)
                     while fire:
-                        fire = model.oponent_turn(interface.grid_of_player)
+                        fire, interface.last_attack_of_oponent = model.oponent_turn(interface.grid_of_player)
                         if not(model.is_alive(interface.grid_of_player.ships)):
                             interface.wining_screen('Oponent win')
                             model.placement_of_ship(interface.grid_of_oponent)
@@ -70,7 +71,7 @@ def event_manage(event, interface, main, placement, game, first_click, turn_of_p
                     model.placement_of_ship(interface.grid_of_player)
                 game = True
 
-    return main, placement, game, first_click, turn_of_player
+    return main, placement, game, first_click, hit_posobility
 
 
 def mouse_grid_pose_check(mouse_pos, interface):

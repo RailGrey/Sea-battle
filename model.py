@@ -253,7 +253,7 @@ def oponent_turn(grid):
             r_attack_index = random.randint(0, len(oponent_hit.oponents_possible_hit) - 1)
             r_attack = oponent_hit.oponents_possible_hit[r_attack_index]
             oponent_attack(grid, oponent_hit, r_attack)
-    return oponent_hit.attack
+    return oponent_hit.attack, r_attack
 
 
 def add_miss_after_death(grid, ship, hit):

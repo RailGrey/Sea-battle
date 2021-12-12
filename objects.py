@@ -288,6 +288,7 @@ class Interface():
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
         self.start = Button((450, 650, 150, 60), (0, 255, 0), (0, 0, 255), 30, 'Новая игра', 'Новая игра')
         self.grids = [self.grid_of_player, self.grid_of_oponent]
+        self.last_attack_of_oponent = ''
 
     def draw(self, game):
         self.grid_of_player.draw_grid()
@@ -301,6 +302,7 @@ class Interface():
             self.placement_of_ships.draw(self.screen)
             self.manual_placement.draw(self.screen)
         self.grid_of_oponent.draw_miss_shot()
+        self.last_attack()
         
         
     def wining_screen(self, s):
@@ -308,4 +310,12 @@ class Interface():
         text = f.render(s, True, (0, 0, 0))
         self.screen.blit(text, (400, 500))            
         pygame.display.update()
-        pygame.time.wait(2000)    
+        pygame.time.wait(2000) 
+        
+        
+    def last_attack(self):
+        f = pygame.font.Font(None, 50)
+        text = f.render(str(self.last_attack_of_oponent), True, (0, 0, 0))
+        self.screen.blit(text, (200, 500))            
+        #pygame.display.update()
+     

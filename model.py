@@ -164,6 +164,11 @@ def manual_placement(grid, r1, r2, len_ship):
             if r1[1] + len_ship > grid.height + 1:
                 possibility.value = False
 
+        if r1[0] + possibility.dirrection[0] * len_ship < 0 or r1[0] + possibility.dirrection[0] * len_ship > grid.lenght:
+            possibility.value = False
+        if r1[1] + possibility.dirrection[1] * len_ship < 0 or r1[1] + possibility.dirrection[1] * len_ship > grid.height:
+            possibility.value = False
+
         if possibility.value:
             for i in range(len_ship):
                 possibility.r_ship += [(r1[0] + possibility.dirrection[0] * i, r1[1] + possibility.dirrection[1] * i)]

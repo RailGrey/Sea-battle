@@ -17,7 +17,7 @@ def draw_activate(grid, r):
     """
     pygame.draw.rect(grid.screen, GREEN_BLUE,
                      (grid.x + (r[0] - 1) * grid.block_size, grid.y + (r[1] - 1) * grid.block_size,
-                      block_size, block_size), 5)
+                      grid.block_size - 1, grid.block_size - 1), 5)
 
 
 def draw_game(interface):

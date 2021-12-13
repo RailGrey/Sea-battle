@@ -26,6 +26,18 @@ class Possibility:
         self.dirrection = (0, 0)
 
 
+class Placement:
+    """Класс для коректной расстановки
+    Атрибуты:
+        process - Наличие первого клика
+        first_click - координата первого клика
+        second_click - коорлината второго клика
+    """
+    def __init__(self):
+        self.process = False
+        self.first_click = ()
+        self.second_click = ()
+
 class Hit:
     """Класс для корректной работы хода игрока и опонента
     Атрибуты:

@@ -126,7 +126,7 @@ def placement_of_ship(grid):
         # end of Spawn (m+1)-x
     # popitshipplacement=1
     grid.ships = ShipsPositions
-    if cantplacement==50:return False
+    if cantplacement>=40:return False
 
 
 def manual_placement(grid, r1, r2, len_ship):
@@ -390,3 +390,18 @@ def create_new_idea(grid, hit):
             hit.new_idea.append(i)
         oponent_hit.choice_posibility = True
     oponent_hit.idea = hit.new_idea
+    
+    
+def initial(screen):
+    flag = True
+    while flag:
+        square = 0
+        grid_lenght = int(input('Введите длину поля:'))
+        grid_hieght = int(input('Введите ширину поля:'))
+        MaxPalubn = int(input('Введите максимальную длину корабля:'))
+        grid = Grid(grid_lenght, grid_hieght, screen, MaxPalubn)
+        if placement_of_ship(grid) == False:
+            flag = True
+        else:
+            flag = False
+    return grid_lenght, grid_hieght, MaxPalubn

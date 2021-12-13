@@ -12,16 +12,16 @@ WIDTH = 1000
 
 FPS = 30
 
-#flag = True
-#while flag:
-#    square = 0
-grid_lenght = int(input('Введите длину поля:'))
-grid_hieght = int(input('Введите ширину поля:'))
-MaxPalubn = int(input('Введите максимальную длину корабля:'))
-#    for i in range(MaxPalubn):
-#        square += (MaxPalubn - i + 2) * 3 * (i + 1)
-#    if grid_hieght * grid_lenght >= square / 2 + 10:
-#        flag = False
+'''flag = True
+while flag:
+    square = 0
+    grid_lenght = int(input('Введите длину поля:'))
+    grid_hieght = int(input('Введите ширину поля:'))
+    MaxPalubn = int(input('Введите максимальную длину корабля:'))
+    for i in range(MaxPalubn):
+        square += (MaxPalubn - i + 2) * 3 * (i + 1)
+    if grid_hieght * grid_lenght >= square / 2 + 10:
+        flag = False'''
 
 
 music = Music()
@@ -36,8 +36,8 @@ def main():
     first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    grid_lenght, grid_hieght, MaxPalubn = initial(screen)    
     interface = Interface(screen, WIDTH, HEIGHT, grid_lenght, grid_hieght, MaxPalubn)
-    placement_of_ship(interface.grid_of_oponent)
     music.check_situation(interface)
     music.play_music()
     while Main:

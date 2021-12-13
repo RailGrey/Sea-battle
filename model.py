@@ -35,7 +35,8 @@ def placement_of_ship(grid):
                       range(intYboard)]
     # for m in range(MaxPalubn-1,-1,-1):
     m = MaxPalubn - 1
-    while m > -1:
+    cantplacement=0
+    while m > -1 and cantplacement<50:
         n = 0
         # Spawn (m+1)-x
         while n <= MaxPalubn - 1 - m:
@@ -120,10 +121,12 @@ def placement_of_ship(grid):
                 ShipsPositions = []
                 Positions_list = [(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for
                                   j in range(intYboard)]
+                cantplacement+=1
         m -= 1
         # end of Spawn (m+1)-x
     # popitshipplacement=1
     grid.ships = ShipsPositions
+    if cantplacement==50:return False
 
 
 def manual_placement(grid, r1, r2, len_ship):

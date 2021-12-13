@@ -8,6 +8,7 @@ LIGHT_GRAY = (192, 192, 192)
 RED = (255, 0, 0)
 BLUE = (45, 48, 140)
 ENEMY = (31, 191, 36)
+ENEMY_DEAD = (220, 250, 22)
 
 
 class Possibility:
@@ -60,6 +61,7 @@ class Hit:
         self.r_attack = ()
         self.new_idea = []
 
+
 class Ship:
     """
     Класс для кораблей
@@ -71,6 +73,7 @@ class Ship:
         lenght - размер корабля в клетках.
         live - True, False. показывает жив ли корабль
         block_size - Размер блоков для отрисовки корабля.
+        enemy_color - цвет не полностью убитых кораблей врага
 
     --------------
     Методы:
@@ -88,6 +91,8 @@ class Ship:
         self.lenght = len(self.r_live)
         self.live = True
         self.block_size = grid.block_size
+        self.enemy_color = ENEMY
+        self.enemy_dead_color = ENEMY_DEAD
 
     def draw_ship(self):
         """
@@ -119,7 +124,22 @@ class Ship:
         Рисует сразу уничтоженый вражеский корабль
         """
         for i in self.r_dead:
-            pygame.draw.rect(self.grid.screen, ENEMY, (self.grid.x + self.block_size * (i[0] - 1) + 1,
+            pygame.draw.rect(self.grid.screen, self.enemy_color, (self.grid.x + self.block_size * (i[0] - 1) + 1,
+                                                       self.grid.y + self.block_size * (i[1] - 1) + 1,
+                                                       self.block_size - 1, self.block_size - 1))
+            pygame.draw.line(self.grid.screen, BLACK,
+                             (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * (i[1] - 1)),
+                             (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * i[1]), 5)
+
+            pygame.draw.line(self.grid.screen, BLACK,
+                             (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * i[1]),
+                             (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * (i[1] - 1)), 5)
+
+    def draw_full_dead_enemy_ship(self):
+        """Рисует полностью убитый вражеский корабль (меняет цвет)
+        """
+        for i in self.r_dead:
+            pygame.draw.rect(self.grid.screen, self.enemy_dead_color, (self.grid.x + self.block_size * (i[0] - 1) + 1,
                                                        self.grid.y + self.block_size * (i[1] - 1) + 1,
                                                        self.block_size - 1, self.block_size - 1))
             pygame.draw.line(self.grid.screen, BLACK,
@@ -169,7 +189,7 @@ class Grid:
         self.rect = 0
         self.ships = ships
         self.miss = []
-        self.MaxPalubn=MaxPalubn
+        self.MaxPalubn = MaxPalubn
 
     def draw_grid(self):
         """ Рисует сетку игрового поля.
@@ -200,7 +220,10 @@ class Grid:
         """Рисует уничтоженые корабли врага
         """
         for ship in self.ships:
-            ship.draw_enemy_dead_ship()
+            if ship.live:
+                ship.draw_enemy_dead_ship()
+            else:
+                ship.draw_full_dead_enemy_ship()
 
     def draw_miss_shot(self):
         """Рисует промахи
@@ -265,8 +288,7 @@ class Button:
         self.text_rect[1] = text_rect_fig.top
         self.text_rect[2] = text_rect_fig.width
         self.text_rect[3] = text_rect_fig.height
-    
-    
+
     def change_color(self):
         color = self.bg_color
         self.bg_color = self.text_color
@@ -323,19 +345,16 @@ class Interface():
             self.manual_placement.draw(self.screen)
         self.grid_of_oponent.draw_miss_shot()
         self.last_attack()
-        
-        
+
     def wining_screen(self, s):
         f = pygame.font.Font(None, 50)
         text = f.render(s, True, (0, 0, 0))
-        self.screen.blit(text, (400, 500))            
+        self.screen.blit(text, (400, 500))
         pygame.display.update()
-        pygame.time.wait(2000) 
-        
-        
+        pygame.time.wait(2000)
+
     def last_attack(self):
         f = pygame.font.Font(None, 50)
         text = f.render(str(self.last_attack_of_oponent), True, (0, 0, 0))
-        self.screen.blit(text, (200, 500))            
-        #pygame.display.update()
-     
+        self.screen.blit(text, (200, 500))
+        # pygame.display.update()

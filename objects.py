@@ -1,3 +1,5 @@
+import random
+
 import pygame
 import pygame.freetype
 
@@ -26,6 +28,68 @@ class Possibility:
         self.dirrection = (0, 0)
 
 
+class Music:
+    """Класс для работы с музыкой
+    """
+
+    def __init__(self):
+        self.theme_number = 0
+        self.themes = ['Music/Theme 1.mp3', 'Music/Theme 2.mp3', 'Music/Theme 3.mp3', 'Music/Start.mp3', 'Music/Dangerous.mp3']
+        self.new_theme_number = 0
+        self.game = False
+
+    def check_situation(self, interface):
+        """
+        Смотрит на обстановку в игре, решает какая музыка более подходящая.
+        Input:
+            interface - объект класса Interface, на котором происходят действия.
+        """
+        if self.theme_number != 3 and self.theme_number != 4:
+            for i in interface.grid_of_player.ships:
+                if i.r_dead:
+                    self.new_theme_number = 3
+                if not (interface.grid_of_player.is_alive()):
+                    self.new_theme_number = random.randint(0, 2)
+
+            for i in interface.grid_of_oponent.ships:
+                if i.r_dead:
+                    self.new_theme_number = 3
+                if not (interface.grid_of_oponent.is_alive()):
+                    self.new_theme_number = random.randint(0, 2)
+
+        if self.theme_number == 3:
+            interface.grid_of_oponent.count_alive()
+            interface.grid_of_player.count_alive()
+            if interface.grid_of_oponent.number_of_dead > interface.grid_of_oponent.number_of_alive:
+                self.new_theme_number = 4
+
+            elif interface.grid_of_player.number_of_dead > interface.grid_of_player.number_of_alive:
+                self.new_theme_number = 4
+
+
+    def check_end_game(self, game):
+        if not game and self.game:
+            self.new_theme_number = random.randint(0, 2)
+            self.new_theme_number = random.randint(0, 2)
+            self.game = False
+        elif game:
+            self.game = True
+
+    def check_and_play(self):
+        """Проверяет, нужно ли сменить трек, и меняет его
+        """
+        if self.new_theme_number != self.theme_number:
+            self.theme_number = self.new_theme_number
+            self.play_music()
+
+    def play_music(self):
+        """
+        Проигрывает нужную дорожку
+        """
+        pygame.mixer.music.load(self.themes[self.theme_number])
+        pygame.mixer.music.play(-1)
+
+
 class Placement:
     """Класс для коректной расстановки
     Атрибуты:
@@ -33,10 +97,12 @@ class Placement:
         first_click - координата первого клика
         second_click - коорлината второго клика
     """
+
     def __init__(self):
         self.process = False
         self.first_click = ()
         self.second_click = ()
+
 
 class Hit:
     """Класс для корректной работы хода игрока и опонента
@@ -194,6 +260,8 @@ class Grid:
         color - цвет сетки
         ships - массив кораблей связаный с этой сеткой
         miss - массив с промахами
+        number_of_alive - число еще живых кораблей
+        number_of_dead - число уже мертвых кораблей
     ---------------
     Методы:
         draw_grid - Отрисовать сетку
@@ -201,6 +269,8 @@ class Grid:
         draw_dead_your_ships - Отрисовать уничтоженые корабли
         draw_dead_enemy_ships - Отрисовать уничтоженые корабли врага
         draw_miss_shot - Отрисовать клетки по которым промахнулись, или стрелять в них нет смысла
+        is_alive - проверяет остались ли живые корабли. Если да возвращает True.
+        count_alive - считает количество живых и уничтоженых кораблей
     """
 
     def __init__(self, lenght, height, screen, MaxPalubn, black=(0, 0, 0), ships=None):
@@ -218,6 +288,8 @@ class Grid:
         self.ships = ships
         self.miss = []
         self.MaxPalubn = MaxPalubn
+        self.number_of_alive = 0
+        self.number_of_dead = 0
 
     def draw_grid(self):
         """ Рисует сетку игрового поля.
@@ -264,6 +336,27 @@ class Grid:
                                                          self.y + miss[1] * self.block_size - self.block_size // 2),
                                self.block_size // 8)
 
+    def is_alive(self):
+        for i in range(len(self.ships)):
+            if self.ships[i].live:
+                return True
+        return False
+
+
+    def count_alive(self):
+        """
+        Считает количество живых и уничтоженыъ кораблей. Записывает в self.number_of_alive и self.number_of_death
+        """
+        live = 0
+        dead = 0
+        for i in self.ships:
+            if i.live:
+                live += 1
+            if not i.live:
+                dead += 1
+        self.number_of_alive = live
+
+        self.number_of_dead = dead
 
 class Button:
     """

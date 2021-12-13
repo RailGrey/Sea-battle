@@ -23,6 +23,8 @@ MaxPalubn = int(input('Введите максимальную длину кор
 #    if grid_hieght * grid_lenght >= square / 2 + 10:
 #        flag = False
 
+
+music = Music()
 def main():
     """main function of the game, everything starts here"""
     pygame.init()
@@ -36,10 +38,15 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     interface = Interface(screen, WIDTH, HEIGHT, grid_lenght, grid_hieght, MaxPalubn)
     placement_of_ship(interface.grid_of_oponent)
+    music.check_situation(interface)
+    music.play_music()
     while Main:
         screen.fill(WHITE)
         clock.tick(FPS)
         interface.draw(Game)
+        music.check_situation(interface)
+        music.check_and_play()
+        music.check_end_game(Game)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False

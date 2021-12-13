@@ -1,5 +1,6 @@
 import model
 from objects import *
+from vis import *
 
 
 def mouse_pos_check(mouse_pos, rect):
@@ -11,65 +12,97 @@ def mouse_pos_check(mouse_pos, rect):
         return False
 
 
+manual_placement = Placement()
+
+
 def event_manage(event, interface, main, placement, game, first_click, hit_posobility, time_of_pressed):
     """manages event from the game"""
+    if manual_placement.process:
+        draw_activate(interface.grid_of_player, manual_placement.first_click)
     if event.type == pygame.MOUSEBUTTONDOWN:
-        #if mouse on player grid
+        # if mouse on player grid
         if mouse_pos_check(event.pos, interface.grid_of_player.rect):  # if mouse on game window
             # if pressed button is left mouse button
-            if event.button == 1 and placement:
+            if (event.button == 1 or event.button == 3) and placement:
                 if first_click[0] == 10000:
                     first_click = event.pos
                 else:
-                    if first_click != mouse_grid_pose_check(event.pos, interface):
+
+                    if first_click != mouse_grid_pose_check(event.pos, interface) and event.button == 1:
+
+                        manual_placement.first_click = ((mouse_grid_pose_check(event.pos, interface))[1],
+                                                        (mouse_grid_pose_check(event.pos, interface))[2])
+                        manual_placement.process = True
+                        for ship in interface.grid_of_player.ships:
+                            for i in ship.r_live:
+                                if ((manual_placement.first_click[0] - i[0]) ** 2 + (manual_placement.first_click[1] - i[1]) ** 2) <= 2:
+                                    manual_placement.process = False
+                    elif event.button == 3 and manual_placement.process:
                         count = len(interface.grid_of_player.ships)
                         lenth = which_size(count, interface.grid_of_player.MaxPalubn)
-                        first_click = (mouse_grid_pose_check(first_click, interface)[1], mouse_grid_pose_check(first_click, interface)[2])
-                        second_click = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
-                        model.manual_placement(interface.grid_of_player, first_click, second_click, lenth)  
-                        first_click = (10000, 10000)
-                        if len(interface.grid_of_player.ships) == (interface.grid_of_player.MaxPalubn + 1) * len(interface.grid_of_player.ships) // 2:
+                        manual_placement.second_click = (
+                        mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
+                        model.manual_placement(interface.grid_of_player, manual_placement.first_click, manual_placement.second_click, lenth)
+                        manual_placement.process = False
+                        if len(interface.grid_of_player.ships) == (interface.grid_of_player.MaxPalubn + 1) * len(
+                                interface.grid_of_player.ships) // 2:
                             placement = False
-        #if mouse on oponent grid
-        #for Daniil!!!
+
+        # if mouse on oponent grid
+        # for Daniil!!!
         elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
             if event.button == 1:
+<<<<<<< HEAD
                 #last_attack_of_oponent = ''
                 x = (mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2]) #coordinates in grid
                 hit_posobility = model.player_hit(interface.grid_of_oponent, x) #step of player
                 if not(model.is_alive(interface.grid_of_oponent.ships)): #end of game
+=======
+                last_attack_of_oponent = ''
+                x = (mouse_grid_pose_check(event.pos, interface)[1],
+                     mouse_grid_pose_check(event.pos, interface)[2])  # coordinates in grid
+                hit_posobility = model.player_hit(interface.grid_of_oponent, x)  # step of player
+                if not (model.is_alive(interface.grid_of_oponent.ships)):  # end of game
+>>>>>>> 647aa5e8a241b25d20c378e3743cda4bfd274fea
                     interface.wining_screen('You win!')
                     model.placement_of_ship(interface.grid_of_oponent)
                     interface.grid_of_player.ships = []
                     interface.grid_of_player.miss = []
                     interface.grid_of_oponent.miss = []
+<<<<<<< HEAD
                     interface.last_attack_of_oponent = ''
+=======
+>>>>>>> 647aa5e8a241b25d20c378e3743cda4bfd274fea
                     game = False
-                if not(hit_posobility):
+                if not (hit_posobility):
                     fire, interface.last_attack_of_oponent = model.oponent_turn(interface.grid_of_player)
                     while fire:
                         fire, interface.last_attack_of_oponent = model.oponent_turn(interface.grid_of_player)
-                        if not(model.is_alive(interface.grid_of_player.ships)):
+                        if not (model.is_alive(interface.grid_of_player.ships)):
                             interface.wining_screen('Oponent win')
                             model.placement_of_ship(interface.grid_of_oponent)
                             interface.grid_of_player.ships = []
                             interface.grid_of_player.miss = []
+<<<<<<< HEAD
                             interface.grid_of_oponent.miss = [] 
                             interface.last_attack_of_oponent = ''
+=======
+                            interface.grid_of_oponent.miss = []
+>>>>>>> 647aa5e8a241b25d20c378e3743cda4bfd274fea
                             game = False
         else:
-            #if mouse on auto-placement button
-            if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not(game):
+            # if mouse on auto-placement button
+            if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not (game):
                 interface.placement_of_ships.change_color()
                 model.placement_of_ship(interface.grid_of_player)
-            #if mouse on manual placement button
-            if mouse_pos_check(pygame.mouse.get_pos(), interface.manual_placement.bg_rect) and not(game):
-                interface.manual_placement.change_color()                
+            # if mouse on manual placement button
+            if mouse_pos_check(pygame.mouse.get_pos(), interface.manual_placement.bg_rect) and not (game):
+                interface.manual_placement.change_color()
                 placement = True
                 interface.grid_of_player.ships = []
-            #if mouse on start button
+            # if mouse on start button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.start.bg_rect):
-                interface.start.change_color() 
+                interface.start.change_color()
                 if len(interface.grid_of_player.ships) == 0:
                     model.placement_of_ship(interface.grid_of_player)
                 game = True

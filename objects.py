@@ -9,6 +9,7 @@ RED = (255, 0, 0)
 BLUE = (45, 48, 140)
 ENEMY = (31, 191, 36)
 ENEMY_DEAD = (220, 250, 22)
+PLAYER_DEAD = (240, 65, 12)
 
 
 class Possibility:
@@ -24,6 +25,18 @@ class Possibility:
         self.r_ship = []
         self.dirrection = (0, 0)
 
+
+class Placement:
+    """Класс для коректной расстановки
+    Атрибуты:
+        process - Наличие первого клика
+        first_click - координата первого клика
+        second_click - коорлината второго клика
+    """
+    def __init__(self):
+        self.process = False
+        self.first_click = ()
+        self.second_click = ()
 
 class Hit:
     """Класс для корректной работы хода игрока и опонента
@@ -77,9 +90,12 @@ class Ship:
 
     --------------
     Методы:
-        draw_ship - Отрисовать просто корабль
-        draw_dead_ship - Отрисовать убитый корабль (зачеркнутый)
-        draw_enemy_dead_ship - Отрисовать вражеский корабль (уже убитый)
+        draw_player_ship - Отрисовать просто корабль
+        draw_cross - Отрисовать крест для корабля. Необходимо ввести цвет
+        draw_dead_player_ship - Отрисовать убитый корабль (зачеркнутый)
+        draw_full_dead_player_ship - Отрисовать полностью убитый корабль игрока
+        draw_dead_enemy_ship - Отрисовать вражеский корабль (уже убитый)
+        draw_full_dead_enemy_ship - Отрисовать полностью убитый вражеский корабль
     """
 
     def __init__(self, grid, r_live, r_dead=None):
@@ -91,64 +107,76 @@ class Ship:
         self.lenght = len(self.r_live)
         self.live = True
         self.block_size = grid.block_size
+        self.player_color = BLUE
+        self.player_dead_color = PLAYER_DEAD
+        self.player_cross_color = RED
         self.enemy_color = ENEMY
         self.enemy_dead_color = ENEMY_DEAD
+        self.enemy_cross_color = BLACK
 
-    def draw_ship(self):
+    def draw_player_ship(self):
         """
         Рисует корабль игрока
         """
         for i in self.r_live:
-            pygame.draw.rect(self.grid.screen, BLUE, (self.grid.x + self.block_size * (i[0] - 1) + 1,
-                                                      self.grid.y + self.block_size * (i[1] - 1) + 1,
-                                                      self.block_size, self.block_size))
+            pygame.draw.rect(self.grid.screen, self.player_color, (self.grid.x + self.block_size * (i[0] - 1) + 1,
+                                                                   self.grid.y + self.block_size * (i[1] - 1) + 1,
+                                                                   self.block_size, self.block_size))
 
-    def draw_dead_ship(self):
+    def draw_cross(self, color):
         """
-        Рисует крест на уничтоженой части корабля
+        Рисует крест для корабля.
+        Input:
+        color - цвет креста, формат который поддерживает pygame.draw
         """
         for i in self.r_dead:
-            pygame.draw.rect(self.grid.screen, BLUE, (self.grid.x + self.block_size * (i[0] - 1) + 1,
-                                                      self.grid.y + self.block_size * (i[1] - 1) + 1,
-                                                      self.block_size, self.block_size))
-            pygame.draw.line(self.grid.screen, RED,
+            pygame.draw.line(self.grid.screen, color,
                              (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * (i[1] - 1)),
                              (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * i[1]), 5)
 
-            pygame.draw.line(self.grid.screen, RED,
+            pygame.draw.line(self.grid.screen, color,
                              (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * i[1]),
                              (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * (i[1] - 1)), 5)
 
-    def draw_enemy_dead_ship(self):
+    def draw_dead_player_ship(self):
+        """
+        Рисует уничтоженые части корабля игрока.
+        """
+        for i in self.r_dead:
+            pygame.draw.rect(self.grid.screen, self.player_color, (self.grid.x + self.block_size * (i[0] - 1) + 1,
+                                                                   self.grid.y + self.block_size * (i[1] - 1) + 1,
+                                                                   self.block_size, self.block_size))
+            self.draw_cross(self.player_cross_color)
+
+    def draw_full_dead_player_ship(self):
+        """
+        Рисует полностью убитый корабль игрока (меняет цвет)
+        """
+        for i in self.r_dead:
+            pygame.draw.rect(self.grid.screen, self.player_dead_color, (self.grid.x + self.block_size * (i[0] - 1) + 1,
+                                                                        self.grid.y + self.block_size * (i[1] - 1) + 1,
+                                                                        self.block_size, self.block_size))
+            self.draw_cross(self.player_cross_color)
+
+    def draw_dead_enemy_ship(self):
         """
         Рисует сразу уничтоженый вражеский корабль
         """
         for i in self.r_dead:
             pygame.draw.rect(self.grid.screen, self.enemy_color, (self.grid.x + self.block_size * (i[0] - 1) + 1,
-                                                       self.grid.y + self.block_size * (i[1] - 1) + 1,
-                                                       self.block_size - 1, self.block_size - 1))
-            pygame.draw.line(self.grid.screen, BLACK,
-                             (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * (i[1] - 1)),
-                             (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * i[1]), 5)
-
-            pygame.draw.line(self.grid.screen, BLACK,
-                             (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * i[1]),
-                             (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * (i[1] - 1)), 5)
+                                                                  self.grid.y + self.block_size * (i[1] - 1) + 1,
+                                                                  self.block_size - 1, self.block_size - 1))
+            self.draw_cross(self.enemy_cross_color)
 
     def draw_full_dead_enemy_ship(self):
-        """Рисует полностью убитый вражеский корабль (меняет цвет)
+        """
+        Рисует полностью убитый вражеский корабль (меняет цвет)
         """
         for i in self.r_dead:
             pygame.draw.rect(self.grid.screen, self.enemy_dead_color, (self.grid.x + self.block_size * (i[0] - 1) + 1,
-                                                       self.grid.y + self.block_size * (i[1] - 1) + 1,
-                                                       self.block_size - 1, self.block_size - 1))
-            pygame.draw.line(self.grid.screen, BLACK,
-                             (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * (i[1] - 1)),
-                             (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * i[1]), 5)
-
-            pygame.draw.line(self.grid.screen, BLACK,
-                             (self.grid.x + self.block_size * (i[0] - 1), self.grid.y + self.block_size * i[1]),
-                             (self.grid.x + self.block_size * i[0], self.grid.y + self.block_size * (i[1] - 1)), 5)
+                                                                       self.grid.y + self.block_size * (i[1] - 1) + 1,
+                                                                       self.block_size - 1, self.block_size - 1))
+            self.draw_cross(self.enemy_cross_color)
 
 
 class Grid:
@@ -208,20 +236,23 @@ class Grid:
         """Рисует корабли игрока на поле
         """
         for ship in self.ships:
-            ship.draw_ship()
+            ship.draw_player_ship()
 
     def draw_dead_your_ships(self):
         """Рисует уничтоженые корабли игрока
         """
         for ship in self.ships:
-            ship.draw_dead_ship()
+            if ship.live:
+                ship.draw_dead_player_ship()
+            else:
+                ship.draw_full_dead_player_ship()
 
     def draw_dead_enemy_ships(self):
         """Рисует уничтоженые корабли врага
         """
         for ship in self.ships:
             if ship.live:
-                ship.draw_enemy_dead_ship()
+                ship.draw_dead_enemy_ship()
             else:
                 ship.draw_full_dead_enemy_ship()
 

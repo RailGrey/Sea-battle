@@ -20,5 +20,11 @@ def draw_activate(grid, r):
                       grid.block_size - 1, grid.block_size - 1), 5)
 
 
+def first_screen(screen):
+    f = pygame.font.Font(None, 50)
+    text = f.render('Введите параметры в терминал', True, (255, 255, 255))
+    screen.blit(text, (200, 400))
+    pygame.display.update()
+
 def draw_game(interface):
     interface.draw()

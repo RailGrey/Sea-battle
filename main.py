@@ -36,6 +36,7 @@ def main():
     first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    first_screen(screen)
     grid_lenght, grid_hieght, MaxPalubn = initial(screen)    
     interface = Interface(screen, WIDTH, HEIGHT, grid_lenght, grid_hieght, MaxPalubn)
     music.check_situation(interface)

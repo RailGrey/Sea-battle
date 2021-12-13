@@ -4,19 +4,24 @@ from model import *
 from objects import *
 from controller import *
 
-BLACK = (0,0,0)
+
 # Game screen Height and Width
 HEIGHT = 800
 WIDTH = 1000
 
-# window with game, rectangle(left up angle cors, width, height)
-game_window = (0, 0, 800, 800)
-FPS = 10
 
+FPS = 30
 
-grid_lenght = int(input('Введите длину поля: '))
-grid_hieght = int(input('Введите ширину поля: '))
-MaxPalubn = int(input('Введите максимальную длину корабля: '))
+#flag = True
+#while flag:
+#    square = 0
+grid_lenght = int(input('Введите длину поля:'))
+grid_hieght = int(input('Введите ширину поля:'))
+MaxPalubn = int(input('Введите максимальную длину корабля:'))
+#    for i in range(MaxPalubn):
+#        square += (MaxPalubn - i + 2) * 3 * (i + 1)
+#    if grid_hieght * grid_lenght >= square / 2 + 10:
+#        flag = False
 
 def main():
     """main function of the game, everything starts here"""
@@ -25,6 +30,7 @@ def main():
     Placement = False
     Game = False
     turn_of_player = True
+    time_of_pressed = 0
     first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -37,7 +43,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False
-        Main, Placement, Game, first_click, turn_of_player = event_manage(event, interface, Main, Placement, Game, first_click, turn_of_player)
+        Main, Placement, Game, first_click, turn_of_player = event_manage(event, interface, Main, Placement, Game, first_click, turn_of_player, time_of_pressed)
+        #print(time_of_pressed)
         pygame.display.update()
           
     pygame.quit()

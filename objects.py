@@ -471,12 +471,12 @@ class Interface():
         self.last_attack()
 
 
-    def wining_screen(self, s):
+    '''def wining_screen(self, s):
         f = pygame.font.Font(None, 50)
         text = f.render(s, True, (0, 0, 0))
         self.screen.blit(text, (400, 500))
         pygame.display.update()
-        pygame.time.wait(2000)
+        pygame.time.wait(2000)'''
 
     def last_attack(self):
         f = pygame.font.Font(None, 50)

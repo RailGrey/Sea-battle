@@ -9,20 +9,7 @@ from controller import *
 HEIGHT = 800
 WIDTH = 1000
 
-
 FPS = 30
-
-'''flag = True
-while flag:
-    square = 0
-    grid_lenght = int(input('Введите длину поля:'))
-    grid_hieght = int(input('Введите ширину поля:'))
-    MaxPalubn = int(input('Введите максимальную длину корабля:'))
-    for i in range(MaxPalubn):
-        square += (MaxPalubn - i + 2) * 3 * (i + 1)
-    if grid_hieght * grid_lenght >= square / 2 + 10:
-        flag = False'''
-
 
 music = Music()
 def main():
@@ -32,7 +19,6 @@ def main():
     Placement = False
     Game = False
     turn_of_player = True
-    time_of_pressed = 0
     first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -51,8 +37,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False
-        Main, Placement, Game, first_click, turn_of_player = event_manage(event, interface, Main, Placement, Game, first_click, turn_of_player, time_of_pressed)
-        #print(time_of_pressed)
+        Main, Placement, Game, first_click, turn_of_player = event_manage(event, interface, Main, Placement, Game, first_click, turn_of_player)
         pygame.display.update()
           
     pygame.quit()

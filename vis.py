@@ -26,5 +26,11 @@ def first_screen(screen):
     screen.blit(text, (200, 400))
     pygame.display.update()
 
-def draw_game(interface):
-    interface.draw()
+def wining_screen(s, screen):
+    f = pygame.font.Font(None, 50)
+    text = f.render(s, True, (0, 0, 0))
+    screen.blit(text, (400, 500))
+    pygame.display.update()
+    pygame.time.wait(2000)
+    
+    

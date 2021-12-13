@@ -405,3 +405,17 @@ def initial(screen):
         else:
             flag = False
     return grid_lenght, grid_hieght, MaxPalubn
+
+
+def which_size(count, max_lenth):
+    lenth = max_lenth
+    size = 1
+    flag = True
+    while flag:
+        if count < lenth:
+            return size
+        else:
+            lenth += max_lenth - size
+            size += 1
+            if size == max_lenth + 1:
+                return 0

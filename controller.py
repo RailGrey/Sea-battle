@@ -20,7 +20,7 @@ def event_manage(event, interface, main, placement, game, first_click, hit_posob
     if manual_placement.process:
         draw_activate(interface.grid_of_player, manual_placement.first_click)
     if event.type == pygame.MOUSEBUTTONDOWN:
-        pygame.time.wait(50)
+        pygame.time.wait(70)
         # if mouse on player grid
         if mouse_pos_check(event.pos, interface.grid_of_player.rect):  # if mouse on game window
             # if pressed button is left mouse button
@@ -40,7 +40,7 @@ def event_manage(event, interface, main, placement, game, first_click, hit_posob
                                     manual_placement.process = False
                     elif event.button == 3 and manual_placement.process:
                         count = len(interface.grid_of_player.ships)
-                        lenth = which_size(count, interface.grid_of_player.MaxPalubn)
+                        lenth = model.which_size(count, interface.grid_of_player.MaxPalubn)
                         manual_placement.second_click = (
                         mouse_grid_pose_check(event.pos, interface)[1], mouse_grid_pose_check(event.pos, interface)[2])
                         model.manual_placement(interface.grid_of_player, manual_placement.first_click, manual_placement.second_click, lenth)
@@ -125,15 +125,4 @@ def mouse_grid_pose_check(mouse_pos, interface):
     return check_out
 
 
-def which_size(count, max_lenth):
-    lenth = max_lenth
-    size = 1
-    flag = True
-    while flag:
-        if count < lenth:
-            return size
-        else:
-            lenth += max_lenth - size
-            size += 1
-            if size == max_lenth + 1:
-                return 0
+

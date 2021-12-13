@@ -453,8 +453,10 @@ class Interface():
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
         self.start = Button((450, 650, 150, 60), (0, 255, 0), (0, 0, 255), 30, 'Новая игра', 'Новая игра')
+        self.undo = Button((650, 650, 150, 60), (0, 255, 0), (0, 0, 255), 30, 'Отменить', 'Отменить')
         self.grids = [self.grid_of_player, self.grid_of_oponent]
         self.last_attack_of_oponent = ''
+        self.draw_undo = False
 
     def draw(self, game):
         self.grid_of_player.draw_grid()
@@ -467,8 +469,11 @@ class Interface():
         if not (game):
             self.placement_of_ships.draw(self.screen)
             self.manual_placement.draw(self.screen)
+            if self.draw_undo:
+                self.undo.draw(self.screen)            
         self.grid_of_oponent.draw_miss_shot()
         self.last_attack()
+
 
     def wining_screen(self, s):
         f = pygame.font.Font(None, 50)

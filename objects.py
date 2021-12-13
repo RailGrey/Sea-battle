@@ -33,8 +33,9 @@ class Music:
     """
 
     def __init__(self):
-        self.theme_number = 0
-        self.themes = ['Music/Theme 1.mp3', 'Music/Theme 2.mp3', 'Music/Theme 3.mp3', 'Music/Start.mp3', 'Music/Dangerous.mp3']
+        self.theme_number = random.randint(0, 3)
+        self.themes = ['Music/Theme 1.mp3', 'Music/Theme 2.mp3', 'Music/Theme 3.mp3', 'Music/Theme 4.mp3',
+                       'Music/Start.mp3', 'Music/Dangerous.mp3']
         self.new_theme_number = 0
         self.game = False
 
@@ -44,33 +45,28 @@ class Music:
         Input:
             interface - объект класса Interface, на котором происходят действия.
         """
-        if self.theme_number != 3 and self.theme_number != 4:
+        if self.theme_number != 4 and self.theme_number != 5:
             for i in interface.grid_of_player.ships:
                 if i.r_dead:
-                    self.new_theme_number = 3
-                if not (interface.grid_of_player.is_alive()):
-                    self.new_theme_number = random.randint(0, 2)
+                    self.new_theme_number = 4
 
             for i in interface.grid_of_oponent.ships:
                 if i.r_dead:
-                    self.new_theme_number = 3
-                if not (interface.grid_of_oponent.is_alive()):
-                    self.new_theme_number = random.randint(0, 2)
+                    self.new_theme_number = 4
 
-        if self.theme_number == 3:
+        if self.theme_number == 4:
             interface.grid_of_oponent.count_alive()
             interface.grid_of_player.count_alive()
             if interface.grid_of_oponent.number_of_dead > interface.grid_of_oponent.number_of_alive:
-                self.new_theme_number = 4
+                self.new_theme_number = 5
 
             elif interface.grid_of_player.number_of_dead > interface.grid_of_player.number_of_alive:
-                self.new_theme_number = 4
-
+                self.new_theme_number = 5
 
     def check_end_game(self, game):
         if not game and self.game:
-            self.new_theme_number = random.randint(0, 2)
-            self.new_theme_number = random.randint(0, 2)
+            self.new_theme_number = random.randint(0, 3)
+            self.new_theme_number = random.randint(0, 3)
             self.game = False
         elif game:
             self.game = True
@@ -342,7 +338,6 @@ class Grid:
                 return True
         return False
 
-
     def count_alive(self):
         """
         Считает количество живых и уничтоженыъ кораблей. Записывает в self.number_of_alive и self.number_of_death
@@ -357,6 +352,7 @@ class Grid:
         self.number_of_alive = live
 
         self.number_of_dead = dead
+
 
 class Button:
     """

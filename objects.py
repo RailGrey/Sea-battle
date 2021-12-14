@@ -30,13 +30,25 @@ class Possibility:
 
 class Music:
     """Класс для работы с музыкой
+    Атрибуты:
+        theme_number - номер темы из списка, который будет проигрываться
+        themes - список со всеми темами
+        new_theme_number - номер новой темы, которая будет играть
+        game - идет ли сейчас игра. True - да, False - нет
+    Методы:
+        check_situation - проверяет обстановку на карте, и меняет тему на более подходящую для игры
+        check_end_game - проверяет, была ли закончена игра. Если да, меняет тему на рандомную начальную.Требует
+                         параметр game который возвращает функция Main из главного модуля
+        check_and_play - проверяет, нужно ли сменить тему. Присваивает theme_number значение new_theme_number
+        play_music - проигрывает с номером theme_number, зацикливая ее.
+
     """
 
     def __init__(self):
-        self.theme_number = random.randint(0, 3)
+        self.theme_number = 0
         self.themes = ['Music/Theme 1.mp3', 'Music/Theme 2.mp3', 'Music/Theme 3.mp3', 'Music/Theme 4.mp3',
                        'Music/Start.mp3', 'Music/Dangerous.mp3']
-        self.new_theme_number = 0
+        self.new_theme_number = random.randint(0, 3)
         self.game = False
 
     def check_situation(self, interface):
@@ -64,6 +76,11 @@ class Music:
                 self.new_theme_number = 5
 
     def check_end_game(self, game):
+        """
+        Проверяет, была ли завершена игра, если да, меняет на начальную тему (спокойную)
+        Input:
+            game - True, если игра. False, если начальный экран.
+        """
         if not game and self.game:
             self.new_theme_number = random.randint(0, 3)
             self.new_theme_number = random.randint(0, 3)
@@ -415,7 +432,7 @@ class Button:
         self.text_color = color
 
 
-class Interface():
+class Interface:
     """
     Содержит все элементы экрана
     ------
@@ -457,16 +474,15 @@ class Interface():
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
         self.start = Button((450, 650, 150, 60), (0, 255, 0), (0, 0, 255), 30, 'Новая игра', 'Новая игра')
         self.undo = Button((650, 650, 150, 60), (0, 255, 0), (0, 0, 255), 30, 'Отменить', 'Отменить')
-        
-        
+
         self.grids = [self.grid_of_player, self.grid_of_oponent]
         self.last_attack_of_oponent = ''
         self.draw_undo = False
 
     def draw(self, game):
-        '''
+        """
         Рисует кнопки и интерфейс
-        '''
+        """
         self.grid_of_player.draw_grid()
         self.grid_of_player.draw_miss_shot()
         self.grid_of_player.draw_your_ships()
@@ -474,19 +490,18 @@ class Interface():
         self.grid_of_oponent.draw_grid()
         self.grid_of_oponent.draw_dead_enemy_ships()
         self.start.draw(self.screen)
-        if not (game):
+        if not game:
             self.placement_of_ships.draw(self.screen)
             self.manual_placement.draw(self.screen)
             if self.draw_undo:
-                self.undo.draw(self.screen)            
+                self.undo.draw(self.screen)
         self.grid_of_oponent.draw_miss_shot()
         self.last_attack()
 
-
     def last_attack(self):
-        '''
+        """
         Указывает последнюю атаку противника
-        '''
+        """
         f = pygame.font.Font(None, 50)
         text = f.render(str(self.last_attack_of_oponent), True, (0, 0, 0))
         self.screen.blit(text, (200, 500))

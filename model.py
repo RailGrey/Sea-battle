@@ -390,13 +390,22 @@ def placement_of_ship(grid):
     
     
 def initial(screen):
+    '''
+    Проводит инициализацию системы
+    '''
     flag = True
     temp_counter = 0
     while flag:
         temp_counter = 0
-        grid_lenght = int(input('Введите длину поля:'))
-        grid_hieght = int(input('Введите ширину поля:'))
-        MaxPalubn = int(input('Введите максимальную длину корабля:'))
+        is_correct = True
+        while is_correct:
+            try:
+                grid_lenght = int(input('Введите длину поля:'))
+                grid_hieght = int(input('Введите ширину поля:'))
+                MaxPalubn = int(input('Введите максимальную длину корабля:'))
+                is_correct = False
+            except:
+                print('Некорректные значения')
         grid = Grid(grid_lenght, grid_hieght, screen, MaxPalubn)
         flag2 = True
         while temp_counter < 10 and flag2:
@@ -413,6 +422,7 @@ def initial(screen):
                 temp_counter += 1
         if temp_counter == 10:
             print('Невозможно расставить корабли')
+    print('Добро пожаловать!')
     return grid_lenght, grid_hieght, MaxPalubn
 
 

@@ -399,7 +399,7 @@ def initial(screen):
         MaxPalubn = int(input('Введите максимальную длину корабля:'))
         grid = Grid(grid_lenght, grid_hieght, screen, MaxPalubn)
         flag2 = True
-        while temp_counter < 10 or flag2:
+        while temp_counter < 10 and flag2:
             try:
                 flag = False
                 flag2 = False

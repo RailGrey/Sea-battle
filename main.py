@@ -19,7 +19,6 @@ def main():
     Placement = False
     Game = False
     turn_of_player = True
-    first_click = (10000, 10000)
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     first_screen(screen)
@@ -37,7 +36,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Main = False
-        Main, Placement, Game, first_click, turn_of_player = event_manage(event, interface, Main, Placement, Game, first_click, turn_of_player)
+        Placement, Game, turn_of_player = event_manage(event, interface, Placement, Game, turn_of_player)
         pygame.display.update()
           
     pygame.quit()

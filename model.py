@@ -385,7 +385,7 @@ def placement_of_ship(grid):
         m -= 1
         # end of Spawn (m+1)-x
     grid.ships = ShipsPositions
-    if cantplacement>=400:
+    if cantplacement>=50:
         return False
     
     
@@ -393,7 +393,7 @@ def initial(screen):
     flag = True
     temp_counter = 0
     while flag:
-        square = 0
+        temp_counter = 0
         grid_lenght = int(input('Введите длину поля:'))
         grid_hieght = int(input('Введите ширину поля:'))
         MaxPalubn = int(input('Введите максимальную длину корабля:'))
@@ -406,10 +406,13 @@ def initial(screen):
                 if placement_of_ship(grid) == False:
                     flag = True
                     flag2 = True
+                    temp_counter += 1
             except:
                 flag = True
                 flag2 = True
                 temp_counter += 1
+        if temp_counter == 10:
+            print('Невозможно расставить корабли')
     return grid_lenght, grid_hieght, MaxPalubn
 
 

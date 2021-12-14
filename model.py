@@ -27,8 +27,8 @@ def sign(sig):
         return 0
     else:
         return int(sig / abs(sig))
-    
-    
+
+
 def manual_placement(grid, r1, r2, len_ship):
     """Функция для ручной расстановки кораблей
      Input:
@@ -287,10 +287,13 @@ def create_new_idea(grid, hit):
             hit.new_idea.append(i)
         oponent_hit.choice_posibility = True
     oponent_hit.idea = hit.new_idea
-    
-    
-    
+
+
 def placement_of_ship(grid):
+    """Автоматически расставляет корабли на указаной сетке
+    Input:
+        grid - объекта класса Grid, на котором произведется установка кораблей
+    """
     MaxPalubn = grid.MaxPalubn
     intXboard = grid.lenght
     intYboard = grid.height
@@ -300,8 +303,8 @@ def placement_of_ship(grid):
                       range(intYboard)]
     # for m in range(MaxPalubn-1,-1,-1):
     m = MaxPalubn - 1
-    cantplacement=0
-    while m > -1 and cantplacement<50:
+    cantplacement = 0
+    while m > -1 and cantplacement < 50:
         n = 0
         # Spawn (m+1)-x
         while n <= MaxPalubn - 1 - m:
@@ -382,18 +385,18 @@ def placement_of_ship(grid):
                 ShipsPositions = []
                 Positions_list = [(i * 10 ** len(str(max(intXboard, intYboard) - 1)) + j) for i in range(intXboard) for
                                   j in range(intYboard)]
-                cantplacement+=1
+                cantplacement += 1
         m -= 1
         # end of Spawn (m+1)-x
     grid.ships = ShipsPositions
-    if cantplacement>=50:
+    if cantplacement >= 50:
         return False
-    
-    
+
+
 def initial(screen):
-    '''
+    """
     Проводит инициализацию системы
-    '''
+    """
     flag = True
     temp_counter = 0
     while flag:
@@ -439,8 +442,8 @@ def which_size(count, max_lenth):
             size += 1
             if size == max_lenth + 1:
                 return 0
-            
-            
+
+
 def try_to_place(grid):
     try:
         flag = False
@@ -449,7 +452,3 @@ def try_to_place(grid):
     except:
         flag = True
     return flag
-            
-            
-            
-            

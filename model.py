@@ -5,24 +5,28 @@ from objects import *
 
 
 def is_alive(ships):
+    """
+    Проверяет есть ли живой корабль из списка ships
+    Input:
+        ships - список с объектами класса Ship
+    """
     for i in range(len(ships)):
         if ships[i].live:
             return True
     return False
 
 
-def modul(mod):
-    if mod >= 0:
-        return mod
-    else:
-        return -mod
-
-
-def sign(sig):  # int
+def sign(sig):
+    """Функция сигнум из математики
+    Input:
+        sig - исло из которого берется сигнум
+    Return:
+        Значение сигнума
+    """
     if sig == 0:
         return 0
     else:
-        return int(sig / modul(sig))
+        return int(sig / abs(sig))
     
     
 def manual_placement(grid, r1, r2, len_ship):
@@ -62,9 +66,6 @@ def manual_placement(grid, r1, r2, len_ship):
             possibility.dirrection = (0, -1)
             if r1[1] - len_ship < 0:
                 possibility.value = False
-
-
-
 
         if possibility.value:
             for i in range(len_ship):
@@ -336,9 +337,9 @@ def placement_of_ship(grid):
 
             Del_list = [-1 for i in range(3 * (3 + m))]
             i = 0
-            while Xaround <= 1 + (1 + (m - 1) * modul(rotX)) * (
+            while Xaround <= 1 + (1 + (m - 1) * abs(rotX)) * (
                     1 + sign(rotX)) // 2:  # Что удаляем из возможных позиций
-                while Yaround <= 1 + (1 + (m - 1) * modul(rotY)) * (1 + sign(rotY)) // 2 and i <= 3 * (3 + m) - 1:
+                while Yaround <= 1 + (1 + (m - 1) * abs(rotY)) * (1 + sign(rotY)) // 2 and i <= 3 * (3 + m) - 1:
                     # print(x+Xaround,y+Yaround)
                     if 0 <= x + Xaround <= intXboard - 1 and 0 <= y + Yaround <= intYboard - 1:
                         Del_list[i] = (x + Xaround) * (10 ** len(str(max(intXboard, intYboard) - 1))) + y + Yaround
@@ -355,9 +356,9 @@ def placement_of_ship(grid):
             Xaround = -m * (1 - sign(rotX + 0.5)) // 2
             i = 0
             S = []
-            while Xaround <= (1 + (m - 1) * modul(rotX)) * (
+            while Xaround <= (1 + (m - 1) * abs(rotX)) * (
                     1 + sign(rotX)) // 2:  # Что добавляем в позиции вражеских кораблей
-                while Yaround <= (1 + (m - 1) * modul(rotY)) * (1 + sign(rotY)) // 2:
+                while Yaround <= (1 + (m - 1) * abs(rotY)) * (1 + sign(rotY)) // 2:
                     S += [(x + Xaround + 1, y + Yaround + 1)]
                     Yaround += 1
                 Xaround += 1

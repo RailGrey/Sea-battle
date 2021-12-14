@@ -21,16 +21,26 @@ def draw_activate(grid, r):
 
 
 def first_screen(screen):
+    """
+    Отрисовывает начальный экран
+    Input:
+        screen - объект класса pygame.screen на котором будет отрисовано
+    """
     f = pygame.font.Font(None, 50)
     text = f.render('Введите параметры в терминал', True, (255, 255, 255))
     screen.blit(text, (200, 400))
     pygame.display.update()
 
+
 def wining_screen(s, screen):
+    """
+    Отрисовывает экран при завершении матча, и делает паузу
+    Аргументы:
+        s - что будет написано на победном экране
+        screen - объект pygame.screen, экран где будет отрисовано
+    """
     f = pygame.font.Font(None, 50)
     text = f.render(s, True, (0, 0, 0))
     screen.blit(text, (400, 500))
     pygame.display.update()
     pygame.time.wait(2000)
-    
-    

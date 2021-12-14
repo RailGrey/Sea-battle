@@ -385,7 +385,7 @@ class Button:
        text_pressed - текст при нажатии
     """
 
-    def __init__(self, bg_rect: list, text_color, bg_color, size, text, text_pressed=''):
+    def __init__(self, bg_rect: tuple[int, int, int, int], text_color, bg_color, size, text, text_pressed=''):
         """
         bg_rect = list [x, y, width, height] where x,y - coordinates of left top angle of rect of background
         text_color - color of bottom

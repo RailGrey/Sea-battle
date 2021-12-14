@@ -4,7 +4,6 @@ from model import *
 from objects import *
 from controller import *
 
-
 # Game screen Height and Width
 HEIGHT = 800
 WIDTH = 1000
@@ -12,6 +11,8 @@ WIDTH = 1000
 FPS = 30
 
 music = Music()
+
+
 def main():
     """main function of the game, everything starts here"""
     pygame.init()
@@ -22,7 +23,7 @@ def main():
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     first_screen(screen)
-    grid_lenght, grid_hieght, MaxPalubn = initial(screen)    
+    grid_lenght, grid_hieght, MaxPalubn = initial(screen)
     interface = Interface(screen, WIDTH, HEIGHT, grid_lenght, grid_hieght, MaxPalubn)
     music.check_situation(interface)
     music.play_music()
@@ -38,8 +39,8 @@ def main():
                 Main = False
         Placement, Game, turn_of_player = event_manage(event, interface, Placement, Game, turn_of_player)
         pygame.display.update()
-          
+
     pygame.quit()
-    
-    
+
+
 main()

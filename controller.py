@@ -62,16 +62,10 @@ def event_manage(event, interface, placement, game, hit_posobility):
         elif mouse_pos_check(event.pos, interface.grid_of_oponent.rect) and game:
             if event.button == 1:  # turn of player
                 x = (mouse_grid_pose_check(event.pos, interface)[1],
-<<<<<<< HEAD
                      mouse_grid_pose_check(event.pos, interface)[2]) #coordinates in grid
                 hit_posobility = model.player_hit(interface.grid_of_oponent, x) #step of player
                 if not(model.is_alive(interface.grid_of_oponent.ships)): # is it end of game?
                     interface.last_attack_of_oponent = ''
-=======
-                     mouse_grid_pose_check(event.pos, interface)[2])  # coordinates in grid
-                hit_posobility = model.player_hit(interface.grid_of_oponent, x)  # step of player
-                if not (model.is_alive(interface.grid_of_oponent.ships)):  # is it end of game?
->>>>>>> 32a5368244bbb33f2877a47a08b9a3893f88e024
                     interface.draw(game)
                     wining_screen('Победа!', interface.screen)
                     flag = True
@@ -94,12 +88,7 @@ def event_manage(event, interface, placement, game, hit_posobility):
                                 flag = model.try_to_place(interface.grid_of_oponent)
                             interface.grid_of_player.ships = []
                             interface.grid_of_player.miss = []
-<<<<<<< HEAD
                             interface.grid_of_oponent.miss = [] 
-=======
-                            interface.grid_of_oponent.miss = []
-                            interface.last_attack_of_oponent = ''
->>>>>>> 32a5368244bbb33f2877a47a08b9a3893f88e024
                             game = False
         else:
             # button section
@@ -127,13 +116,8 @@ def event_manage(event, interface, placement, game, hit_posobility):
                     interface.grid_of_oponent.miss = []
                     interface.last_attack_of_oponent = ''
                 else:
-<<<<<<< HEAD
-                    #game = True
-                    if len(interface.grid_of_player.ships) < (interface.grid_of_player.MaxPalubn + 1) * interface.grid_of_player.MaxPalubn // 2:
-=======
                     if len(interface.grid_of_player.ships) < (
                             interface.grid_of_player.MaxPalubn + 1) * interface.grid_of_player.MaxPalubn // 2:
->>>>>>> 32a5368244bbb33f2877a47a08b9a3893f88e024
                         flag = True
                         while flag:
                             flag = model.try_to_place(interface.grid_of_player)
@@ -141,12 +125,8 @@ def event_manage(event, interface, placement, game, hit_posobility):
                     flag = True
                     while flag:
                         flag = model.try_to_place(interface.grid_of_oponent)
-<<<<<<< HEAD
                     game = True
             #if mouse on undo button
-=======
-            # if mouse on undo button
->>>>>>> 32a5368244bbb33f2877a47a08b9a3893f88e024
             if mouse_pos_check(pygame.mouse.get_pos(), interface.undo.bg_rect) and interface.grid_of_player.ships != []:
                 interface.grid_of_player.ships.pop()
                 if len(interface.grid_of_player.ships) == 0:

@@ -64,7 +64,9 @@ def event_manage(event, interface, placement, game, hit_posobility):
                 if not(model.is_alive(interface.grid_of_oponent.ships)): # is it end of game?
                     interface.draw(game)
                     wining_screen('Победа!', interface.screen)
-                    model.placement_of_ship(interface.grid_of_oponent)
+                    flag = True
+                    while flag:
+                        flag = model.try_to_place(interface.grid_of_oponent)
                     interface.grid_of_player.ships = []
                     interface.grid_of_player.miss = []
                     interface.grid_of_oponent.miss = []
@@ -77,7 +79,9 @@ def event_manage(event, interface, placement, game, hit_posobility):
                         if not (model.is_alive(interface.grid_of_player.ships)):
                             interface.draw(game)
                             wining_screen('Порожение', interface.screen)
-                            model.placement_of_ship(interface.grid_of_oponent)
+                            flag = True
+                            while flag:
+                                flag = model.try_to_place(interface.grid_of_oponent)
                             interface.grid_of_player.ships = []
                             interface.grid_of_player.miss = []
                             interface.grid_of_oponent.miss = [] 
@@ -88,7 +92,9 @@ def event_manage(event, interface, placement, game, hit_posobility):
             # if mouse on auto-placement button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not (game):
                 interface.placement_of_ships.change_color()
-                model.placement_of_ship(interface.grid_of_player)
+                flag = True
+                while flag:
+                    flag = model.try_to_place(interface.grid_of_player)
             # if mouse on manual placement button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.manual_placement.bg_rect) and not (game):
                 interface.manual_placement.change_color()
@@ -97,10 +103,24 @@ def event_manage(event, interface, placement, game, hit_posobility):
             # if mouse on start button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.start.bg_rect):
                 interface.start.change_color()
-                if len(interface.grid_of_player.ships) < (interface.grid_of_player.MaxPalubn + 1) * interface.grid_of_player.MaxPalubn // 2:
-                    model.placement_of_ship(interface.grid_of_player)
-                game = True
-                model.placement_of_ship(interface.grid_of_oponent)
+                if game:
+                    game = False
+                    flag = True
+                    while flag:
+                        flag = model.try_to_place(interface.grid_of_oponent)
+                    interface.grid_of_player.ships = []
+                    interface.grid_of_player.miss = []
+                    interface.grid_of_oponent.miss = [] 
+                    interface.last_attack_of_oponent = ''
+                else:
+                    if len(interface.grid_of_player.ships) < (interface.grid_of_player.MaxPalubn + 1) * interface.grid_of_player.MaxPalubn // 2:
+                        flag = True
+                        while flag:
+                            flag = model.try_to_place(interface.grid_of_player)
+                    game = True
+                    flag = True
+                    while flag:
+                        flag = model.try_to_place(interface.grid_of_oponent)
             #if mouse on undo button
             if mouse_pos_check(pygame.mouse.get_pos(), interface.undo.bg_rect) and interface.grid_of_player.ships != []:
                 interface.grid_of_player.ships.pop()

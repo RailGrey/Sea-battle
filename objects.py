@@ -421,6 +421,13 @@ class Interface():
     ------
     grid_of_player - сетка игрока
     grid_of_oponent - сетка противника
+    placement_of_ships - кнопка автоматической расстановки
+    manual_placement - кнопка ручной расстановки
+    start - кнопка начала игры
+    undo - кнопка отмены постановки последнего корабля
+    grids - массив с сетками
+    last_attack_of_oponent - координаты последней атаки противника
+    draw_undo - индефикатор рисования кнопки отмены
     """
 
     def __init__(self, screen, width, height, grid_lenght, grid_height, MaxPalubn):
@@ -445,16 +452,21 @@ class Interface():
             self.grid_of_oponent.x, self.grid_of_oponent.y,
             self.grid_of_oponent.lenght * self.grid_of_oponent.block_size,
             self.grid_of_oponent.height * self.grid_of_oponent.block_size)
-
+        # create and place buttons
         self.placement_of_ships = Button((50, 650, 100, 60), (0, 255, 0), (0, 0, 255), 50, 'Авто', 'Авто')
         self.manual_placement = Button((200, 650, 120, 60), (0, 255, 0), (0, 0, 255), 40, 'Ручная', 'Ручная')
         self.start = Button((450, 650, 150, 60), (0, 255, 0), (0, 0, 255), 30, 'Новая игра', 'Новая игра')
         self.undo = Button((650, 650, 150, 60), (0, 255, 0), (0, 0, 255), 30, 'Отменить', 'Отменить')
+        
+        
         self.grids = [self.grid_of_player, self.grid_of_oponent]
         self.last_attack_of_oponent = ''
         self.draw_undo = False
 
     def draw(self, game):
+        '''
+        Рисует кнопки и интерфейс
+        '''
         self.grid_of_player.draw_grid()
         self.grid_of_player.draw_miss_shot()
         self.grid_of_player.draw_your_ships()
@@ -471,15 +483,10 @@ class Interface():
         self.last_attack()
 
 
-    '''def wining_screen(self, s):
-        f = pygame.font.Font(None, 50)
-        text = f.render(s, True, (0, 0, 0))
-        self.screen.blit(text, (400, 500))
-        pygame.display.update()
-        pygame.time.wait(2000)'''
-
     def last_attack(self):
+        '''
+        Указывает последнюю атаку противника
+        '''
         f = pygame.font.Font(None, 50)
         text = f.render(str(self.last_attack_of_oponent), True, (0, 0, 0))
         self.screen.blit(text, (200, 500))
-        # pygame.display.update()

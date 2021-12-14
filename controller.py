@@ -35,8 +35,8 @@ def event_manage(event, interface, placement, game, hit_posobility):
         if mouse_pos_check(event.pos, interface.grid_of_player.rect):
             # if pressed button is left or right mouse button
             if (event.button == 1 or event.button == 3) and placement:
-                if manual_placement.first_click != mouse_grid_pose_check(event.pos,
-                                                                         interface) and event.button == 1:  # remake first click
+                if manual_placement.first_click != mouse_grid_pose_check(event.pos, interface) and event.button == 1:
+                    # remake first click
 
                     manual_placement.first_click = ((mouse_grid_pose_check(event.pos, interface))[1],
                                                     (mouse_grid_pose_check(event.pos, interface))[2])
@@ -75,7 +75,7 @@ def event_manage(event, interface, placement, game, hit_posobility):
                     interface.grid_of_oponent.miss = []
                     interface.last_attack_of_oponent = ''
                     game = False
-                if not (hit_posobility):  # turn of oponent
+                if not hit_posobility:  # turn of oponent
                     fire, interface.last_attack_of_oponent = model.oponent_turn(interface.grid_of_player)
                     while fire:  # fire - shows can bot attack or not
                         fire, interface.last_attack_of_oponent = model.oponent_turn(interface.grid_of_player)
@@ -93,13 +93,13 @@ def event_manage(event, interface, placement, game, hit_posobility):
         else:
             # button section
             # if mouse on auto-placement button
-            if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not (game):
+            if mouse_pos_check(pygame.mouse.get_pos(), interface.placement_of_ships.bg_rect) and not game:
                 interface.placement_of_ships.change_color()
                 flag = True
                 while flag:
                     flag = model.try_to_place(interface.grid_of_player)
             # if mouse on manual placement button
-            if mouse_pos_check(pygame.mouse.get_pos(), interface.manual_placement.bg_rect) and not (game):
+            if mouse_pos_check(pygame.mouse.get_pos(), interface.manual_placement.bg_rect) and not game:
                 interface.manual_placement.change_color()
                 placement = True
                 interface.grid_of_player.ships = []
@@ -144,14 +144,14 @@ def mouse_grid_pose_check(mouse_pos, interface):
     """
     check_out = None
     for grid in interface.grids:
-        block_size = grid.block_size
+        size_of_block = grid.block_size
         left_x = grid.x
-        right_x = grid.x + block_size * grid.lenght
+        right_x = grid.x + size_of_block * grid.lenght
         top_y = grid.y
-        bot_y = grid.y + block_size * grid.height
+        bot_y = grid.y + size_of_block * grid.height
 
         if left_x < mouse_pos[0] < right_x and top_y < mouse_pos[1] < bot_y:
-            x = (mouse_pos[0] - left_x) // block_size + 1
-            y = (mouse_pos[1] - top_y) // block_size + 1
+            x = (mouse_pos[0] - left_x) // size_of_block + 1
+            y = (mouse_pos[1] - top_y) // size_of_block + 1
             check_out = [grid, x, y]
     return check_out
